@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import firebase from 'firebase'
-import { firestore } from '../utils/firestore'
+import { firestore } from '../../services/firestore'
 
 function createRoom (userName: string) {
     return firestore.collection('rooms')

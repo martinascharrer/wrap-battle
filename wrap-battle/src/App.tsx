@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import { FormCreateRoom } from './components/FormCreateRoom'
+import { FormCreateRoom } from './components/parts/FormCreateRoom'
 
 function App() {
     return (
