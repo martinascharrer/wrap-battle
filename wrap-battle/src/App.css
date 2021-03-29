@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.logo {
+  margin-top: 200px;
+  height: 200px ;
+}
+
+body {
+  background-image: url("./assets/images/bg-pattern.png");
+}
+
+
