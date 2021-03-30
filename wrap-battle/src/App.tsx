@@ -1,11 +1,16 @@
 import React from 'react'
 import './App.css'
 import { FormCreateRoom } from './components/parts/FormCreateRoom'
+import logo from './assets/images/logo_outlined.png';
+
 
 function App() {
     return (
         <div className="App">
-            <h1>Wrap Battle</h1>
+            <img src={logo}
+                 alt="logo"
+                 className="logo"
+            />
             <FormCreateRoom />
         </div>
     );

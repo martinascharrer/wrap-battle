@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import firebase from 'firebase'
 import { firestore } from '../../services/firestore'
+import { Button } from "@material-ui/core";
+import TextField from '@material-ui/core/TextField';
 
 function createRoom (userName: string) {
     return firestore.collection('rooms')
@@ -21,15 +23,26 @@ export const FormCreateRoom = () => {
 
     return (
         <div className="App">
-            <label>Enter your name dear host: </label>
-            <input
-                type="text"
-                placeholder="name"
+
+            <br/>
+            <TextField
+                required
+                id="filled-required"
+                label="Enter Nickname"
+                defaultValue="Enter your nickname"
+                variant="filled"
                 value={user}
                 onChange={e => setUser(e.currentTarget.value)}
             />
+
             <br/>
-            <button onClick={() => createRoom(user)}>Create room</button>
+            <br/>
+            <Button variant="contained"
+                    color="primary"
+                    onClick={() => createRoom(user)}
+                    href="">
+                Create Room
+            </Button>
         </div>
     );
 }
