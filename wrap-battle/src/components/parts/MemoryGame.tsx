@@ -2,17 +2,23 @@ import { useState } from 'react'
 import {MemoryCard} from './MemoryCard';
 
 
-export const MemoryGame = () => {
-    const [user, setUser] = useState('');
-    let cardCount = 12;
+function shuffle(food: string[]) {
+    let foodCopy = food.concat(food);
+    const cardCount = foodCopy.length;
     const memoryCards = [];
-    let hi = "hi";
-    const food = ["burrito", "nacho", "tortilla", "enchillada", "chimichanga", "taco"]
-
     for(let i = 0; i < cardCount; i++ ){
-        let selection = i % 6;
-        memoryCards.push(<MemoryCard content={food[selection]}/>);
+        let selectedIndex = Math.floor(Math.random() * Math.floor(foodCopy.length-1));
+        let selection = selectedIndex;
+        memoryCards.push(<MemoryCard content={foodCopy[selection]}/>);
+        foodCopy.splice(selectedIndex,1);
     }
+    return memoryCards;
+}
+
+
+export const MemoryGame = () => {
+    const food = ["burrito", "nacho", "tortilla", "enchillada", "chimichanga", "taco"]
+    const memoryCards = shuffle(food);
 
     return (
         <div className="memory-game">
