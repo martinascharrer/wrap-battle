@@ -19,7 +19,6 @@ export const FormCreateRoom = () => {
                 required
                 id="filled-required"
                 label="Enter Nickname"
-                defaultValue="Enter your nickname"
                 variant="filled"
                 data-testid="name input"
                 value={playerName}
