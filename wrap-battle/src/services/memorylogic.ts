@@ -1,9 +1,6 @@
 
 import { MemoryCardType } from '../types/memoryCardType';
 import { gamePlayer } from '../types/gamePlayer';
-import { memo } from 'react';
-import { memory } from 'node:console';
-import { getPlayerFromStorage } from './player';
 
 
 export function updateMemoryCards( MemoryCards: MemoryCardType[], GamePlayers: gamePlayer[], ClickedIndex : number){
