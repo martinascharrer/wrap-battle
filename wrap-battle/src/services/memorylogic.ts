@@ -1,11 +1,11 @@
 
 import { MemoryCardType } from '../types/memoryCardType';
-import { gamePlayer } from '../types/gamePlayer';
+import { GamePlayer } from '../types/gamePlayer';
 
-
-export function updateMemoryCards( MemoryCards: MemoryCardType[], GamePlayers: gamePlayer[], ClickedIndex : number){
+export function updateMemoryCards( MemoryCards: MemoryCardType[], GamePlayers: GamePlayer[], ClickedIndex : number){
     let memoryCards = MemoryCards;
     let gamePlayers = GamePlayers;
+    let gameOver = false;
     memoryCards[ClickedIndex].state = 1;
     const uncoveredCards = memoryCards.filter(memoryCard => memoryCard.state === 1);
     const playerOnTurn = gamePlayers.findIndex(gamePlayer => gamePlayer.onTurn === true);
@@ -32,8 +32,15 @@ export function updateMemoryCards( MemoryCards: MemoryCardType[], GamePlayers: g
             //memoryCards[uncoveredIDs[0]].state = 0;
             //memoryCards[uncoveredIDs[1]].state = 0;
         }
+        let countWonCards =0;
+        memoryCards.forEach(memoryCard => {
+            if(memoryCard.state ===2) {
+                countWonCards++;
+            }
+        });
+        if(countWonCards === memoryCards.length) gameOver = true;
     } 
-    return {memoryCards, gamePlayers};
+    return {memoryCards, gamePlayers, gameOver};
 }
 
 export function resetValues(memoryCards: MemoryCardType[]){

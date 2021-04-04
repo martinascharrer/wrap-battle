@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MemoryCardType } from '../../types/memoryCardType';
-import { gamePlayer } from '../../types/gamePlayer';
+import { GamePlayer } from '../../types/gamePlayer';
 import {MemoryCardList} from './MemoryCardList';
 import { resetValues, updateMemoryCards } from '../../services/memorylogic';
 import imageTaco from '../../assets/images/food/taco.jpg';
@@ -10,11 +10,12 @@ import imageEnchilada from '../../assets/images/food/enchilada.jpg';
 import imageChimichanga from '../../assets/images/food/chimichanga.jpg';
 import imageTortilla from '../../assets/images/food/tortilla.jpg';
 
+// muss man das immer machen?
 type memoryGameProps = {
     playerCount: number;
 }
 
-function shuffle(food: string[], images: string[]) {
+function createRandomMemoryLayout(food: string[], images: string[]) {
     let foodCopy = food.concat(food);
     let empty = [];
     for(let i = 0 ; i <images.length; i++ ){
@@ -34,11 +35,11 @@ function shuffle(food: string[], images: string[]) {
 }
 
 function getDefaultPlayer(props:any){
-    const gamePlayers: gamePlayer[] = [];
+    const gamePlayers: GamePlayer[] = [];
     for(let i = 0; i < props.playerCount; i++){
         let onturn = false;
         if(i===0) onturn = true;
-        const newPlayer: gamePlayer = { id: i, name : 'Player'+i, nachos : 0, onTurn: onturn };
+        const newPlayer: GamePlayer = { id: i, name : 'Player'+i, nachos : 0, onTurn: onturn };
         gamePlayers.push(newPlayer);
     }
     return gamePlayers;
@@ -46,7 +47,7 @@ function getDefaultPlayer(props:any){
 
 //Warum gehts nur mit diesem shit???
 type playerProps = {
-    player: gamePlayer
+    player: GamePlayer
 }
 function DisplayPlayers( {player} : playerProps){
     if(player.onTurn === true){
@@ -56,11 +57,20 @@ function DisplayPlayers( {player} : playerProps){
     }
 }
 
+function getWinner(players: GamePlayer[]){
+    let nachos: number[] = [];
+    players.forEach(players => {
+        nachos.push(players.nachos);
+    });
+    return players[nachos.indexOf(Math.max(...nachos))];
+}
+
 export const MemoryGame = (playerCount: memoryGameProps) => {
 
     const food = ['burrito', 'nacho', 'tortilla', 'enchillada', 'chimichanga', 'taco'];
     const images = [imageBurrito, imageNacho, imageTortilla, imageEnchilada, imageChimichanga, imageTaco ];
-    const [memoryCards,setMemoryCards] = useState(shuffle(food, images));
+
+    const [memoryCards,setMemoryCards] = useState(createRandomMemoryLayout(food, images));
     const [players, setPlayers] = useState(getDefaultPlayer(playerCount));
 
     const onClick = (index : number)=> {
@@ -72,11 +82,16 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
         for (let i = 0; i < memoryCards.length; i++){
                 newMemoryCards[i].state = updatedCards[i].state;
         }
+        //würde eigentlich gerne nur das haben
         setMemoryCards(newMemoryCards);
         setPlayers(updatedValues.gamePlayers);
         setTimeout(() => {
             setMemoryCards(resetValues(memoryCards));
-        }, 2500);
+            if(updatedValues.gameOver) {
+                let winner = getWinner(players);
+                alert('game over, the winner is ' + winner.name + ' with: ' + winner.nachos + ' nachos');
+            }
+        }, 1000);
     };
 
 
@@ -87,7 +102,6 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                 <DisplayPlayers player={player}/>
             )}
         </div>
-        
     );
 };
 

@@ -1,7 +1,6 @@
 import { MemoryCardType } from '../../types/memoryCardType';
 import {MemoryCard} from './MemoryCard';
 
-
 type memoryCardListProps = {
     memoryCards : MemoryCardType[];
     onClick: Function;

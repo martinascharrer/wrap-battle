@@ -1,4 +1,4 @@
-export interface gamePlayer {
+export interface GamePlayer {
     id: number;
     name: string;
     nachos: number;
