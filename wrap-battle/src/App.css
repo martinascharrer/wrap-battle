@@ -37,8 +37,7 @@
   }
 }
 
-<<<<<<< HEAD
-.memory-game {
+.memory-card-list {
   width: 60%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -56,7 +55,6 @@
     width: 100%;
     height: 100%;
 }
-=======
 .logo {
   margin-top: 200px;
   height: 200px ;
@@ -67,4 +65,3 @@ body {
 }
 
 
->>>>>>> main
