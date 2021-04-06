@@ -1,14 +1,17 @@
-import { useParams } from 'react-router-dom';
+import {Header} from '../parts/Header';
+import {GameField} from '../parts/GameField';
+import {PointsOverview} from '../parts/PointsOverview';
 
-interface roomParams {
-    id: string;
-}
+
+
 
 export const PageGameRoom = () => {
-    const params: roomParams = useParams();
+
     return (
-        <div className="pageWaitingRoom">
-            you are in game room: <em>{params.id}</em>
+        <div className="pageGameRoom">
+            <Header />
+            <GameField/>
+            <PointsOverview/>
         </div>
     );
 };

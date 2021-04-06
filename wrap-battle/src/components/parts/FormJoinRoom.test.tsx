@@ -12,14 +12,17 @@ describe('FormCreateRoom', () => {
     });
 
     test('It should add a new player to the existing room.', () => {
-        render(<FormJoinRoom />);
+        const { getByTestId } = render(<FormJoinRoom />);
 
-        const nameInput = screen.getByTestId('name input');
+        const nameInput = getByTestId('name input').querySelector(
+            'input'
+        ) as HTMLInputElement;
         fireEvent.change(nameInput, { target: { value: 'Hans Wurst' } });
-        const roomCodeInput = screen.getByTestId('room code input');
+        const roomCodeInput = getByTestId('room code input').querySelector(
+            'input'
+        ) as HTMLInputElement;
         fireEvent.change(roomCodeInput, { target: { value: 'ASDFGE' } });
-
-        fireEvent.click(screen.getByTestId('join button'));
+        fireEvent.click(getByTestId('join button'));
         expect(joinRoom).toBeCalledWith('ASDFGE', 'Hans Wurst');
     });
 });

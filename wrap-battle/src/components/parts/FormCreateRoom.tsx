@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { createRoom } from '../../services/room';
 import { useHistory } from 'react-router-dom';
 import { Button } from '@material-ui/core';
@@ -15,23 +15,27 @@ export const FormCreateRoom = () => {
 
     return (
         <div className="formCreateRoom">
-            <TextField
-                required
-                id="filled-required"
-                label="Enter Nickname"
-                variant="filled"
-                data-testid="name input"
-                value={playerName}
-                onChange={(e) => setPlayerName(e.currentTarget.value)}
-            />
-            <Button
-                variant="contained"
-                color="primary"
-                data-testid="create button"
-                onClick={handleCreateRoom}
-            >
-                Create room
-            </Button>
+                <TextField
+                    className="textfield"
+                    required
+                    id="filled-required"
+                    label="Enter Nickname"
+                    variant="filled"
+                    data-testid="name input"
+                    value={playerName}
+                    onChange={(e) => setPlayerName(e.currentTarget.value)}
+                />
+           <br />
+           <br />
+               <Button
+                    className="ButtonCreateRoom"
+                    variant="contained"
+                    color="primary"
+                    data-testid="create button"
+                    onClick={handleCreateRoom}
+                >
+                    Create room
+                </Button>
         </div>
     );
 };
