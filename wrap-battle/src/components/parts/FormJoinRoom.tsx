@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { joinRoom } from '../../services/room';
 import { useHistory } from 'react-router-dom';
+import { Button } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
 
 export const FormJoinRoom = () => {
     const history = useHistory();
@@ -14,27 +16,39 @@ export const FormJoinRoom = () => {
 
     return (
         <div className="App">
-            <label>Nickname: </label>
-            <input
-                type="text"
-                placeholder="name"
-                value={playerName}
-                data-testid="name input"
-                onChange={(e) => setPlayerName(e.currentTarget.value)}
-            />
-            <br />
-            <label>Room code:</label>
-            <input
-                type="text"
-                placeholder="name"
-                value={roomCode}
+            <TextField
+                className="textfield"
+                required
+                id="filled-required"
+                label="Enter PIN"
+                variant="filled"
                 data-testid="room code input"
+                value={roomCode}
                 onChange={(e) => setRoomCode(e.currentTarget.value)}
             />
             <br />
-            <button data-testid="join button" onClick={handleJoinRoom}>
+            <br />
+            <TextField
+                className="textfield"
+                required
+                id="filled-required"
+                label="Enter Nickname"
+                variant="filled"
+                data-testid="name input"
+                value={playerName}
+                onChange={(e) => setPlayerName(e.currentTarget.value)}
+            />
+            <br />
+            <br />
+            <Button
+                data-testid="join button"
+                className="ButtonJoinRoom"
+                variant="contained"
+                color="primary"
+                onClick={handleJoinRoom}
+            >
                 Join room
-            </button>
+            </Button>
         </div>
     );
 };
