@@ -9,7 +9,7 @@ export function updateMemoryCards( MemoryCards: Card[], Players: Player[], Click
     let gameOver = false;
     memoryCards[ClickedIndex].state = 1;
     const uncoveredCards = memoryCards.filter(memoryCard => memoryCard.state === 1);
-    const playerOnTurn = gamePlayers.findIndex(gamePlayer => gamePlayer.onTurn === true);
+    const playerOnTurn = gamePlayers.findIndex(gamePlayer => gamePlayer.isOnTurn === true);
     if(uncoveredCards.length === 2){
         let uncoveredIDs : number[] = [];
         memoryCards.forEach(memoryCard => {
@@ -20,15 +20,15 @@ export function updateMemoryCards( MemoryCards: Card[], Players: Player[], Click
         if(memoryCards[uncoveredIDs[0]].content === memoryCards[uncoveredIDs[1]].content){
             memoryCards[uncoveredIDs[0]].state = 2;
             memoryCards[uncoveredIDs[1]].state = 2;
-            gamePlayers[playerOnTurn].nachos ++;
+            //gamePlayers[playerOnTurn].nachos ++;
         } else {
             gamePlayers.forEach(gamePlayer => {
-            gamePlayer.onTurn = false;
+            gamePlayer.isOnTurn = false;
             });
             if(playerOnTurn >= gamePlayers.length-1){
-                gamePlayers[0].onTurn = true;
+                gamePlayers[0].isOnTurn = true;
             } else {
-                gamePlayers[playerOnTurn+1].onTurn = true;
+                gamePlayers[playerOnTurn+1].isOnTurn = true;
             }
             //memoryCards[uncoveredIDs[0]].state = 0;
             //memoryCards[uncoveredIDs[1]].state = 0;

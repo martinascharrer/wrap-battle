@@ -67,30 +67,27 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
     const onClick = (index : number)=> {
         // warum muss man das so machen??
         // setMemoryCards(createNewStates(memoryCards, index)); geht nicht warum ?? :(
-        let updatedValues;
-        if(room) updatedValues =  updateMemoryCards(room?.memoryCards, room?.players, index);
-        let newMemoryCards = [...memoryCards];
-        let updatedCards = updatedValues.memoryCards;
-        for (let i = 0; i < memoryCards.length; i++){
-                newMemoryCards[i].state = updatedCards[i].state;
+        if(room) {
+            let updatedValues =  updateMemoryCards(room?.memoryCards, room?.players, index);
+            setMemoryCards(room.id, updatedValues.memoryCards);
+            setTimeout(() => {
+                setMemoryCards(room.id, resetValues(room?.memoryCards));
+                if(updatedValues.gameOver) {
+                    let winner = getWinner(players);
+                    alert('game over, the winner is ' + winner.name + ' with: ' + winner.nachos + ' nachos');
+                }
+            }, 1000);
         }
-        //würde eigentlich gerne nur das haben
-        setMemoryCards(newMemoryCards);
-        setPlayers(updatedValues.gamePlayers);
-        setTimeout(() => {
-            setMemoryCards(resetValues(memoryCards));
-            if(updatedValues.gameOver) {
-                let winner = getWinner(players);
-                alert('game over, the winner is ' + winner.name + ' with: ' + winner.nachos + ' nachos');
-            }
-        }, 1000);
     };
 
 
     return (
         <div className="memory-game">
-            {/*<MemoryCardList memoryCards={memoryCards} onClick={onClick} />*/}
-            {players.map((player)=>
+            {
+                room && (<MemoryCardList memoryCards={room?.memoryCards} onClick={onClick} />)
+            }
+            {
+            players.map((player)=>
             {
                 if(player.isOnTurn){
                         return <p>{player.name} {player.nachos} onTurn</p>;
