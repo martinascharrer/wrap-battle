@@ -1,8 +1,8 @@
-import { MemoryCardType } from '../../types/memoryCardType';
+import { Card } from '../../types/card';
 import {MemoryCard} from './MemoryCard';
 
 type memoryCardListProps = {
-    memoryCards : MemoryCardType[];
+    memoryCards : Card[];
     onClick: Function;
 }
 

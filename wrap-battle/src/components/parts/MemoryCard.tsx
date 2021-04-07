@@ -1,11 +1,11 @@
-import { MemoryCardType } from '../../types/memoryCardType';
+import { Card } from '../../types/card';
 
 type memoryCardProps = {
-    memoryCard : MemoryCardType
+    memoryCard : Card
     onClick: Function;
 }
 
-function ShowContent(props: {memorycard: MemoryCardType}){
+function ShowContent(props: {memorycard: Card}){
     if(props.memorycard.state === 0){
         return <div></div>;
     } else if (props.memorycard.state === 1) {

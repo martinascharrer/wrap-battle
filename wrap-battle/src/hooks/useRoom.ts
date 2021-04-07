@@ -29,7 +29,7 @@ const useRoom = (): Output => {
         return () => {
             unsubscribe();
         };
-    });
+    }, []);
 
     return { room };
 };

@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { MemoryCardType } from '../../types/memoryCardType';
-import { GamePlayer } from '../../types/gamePlayer';
+import { useState, useEffect } from 'react';
+import { Card } from '../../types/card';
+import { Player } from '../../types/player';
 import {MemoryCardList} from './MemoryCardList';
 import { resetValues, updateMemoryCards } from '../../services/memorylogic';
 import imageTaco from '../../assets/images/food/taco.jpg';
@@ -9,6 +9,8 @@ import imageNacho from '../../assets/images/food/nacho.jpg';
 import imageEnchilada from '../../assets/images/food/enchilada.jpg';
 import imageChimichanga from '../../assets/images/food/chimichanga.jpg';
 import imageTortilla from '../../assets/images/food/tortilla.jpg';
+import useRoom from '../../hooks/useRoom';
+import {setMemoryCards} from  '../../services/room';
 
 // muss man das immer machen?
 type memoryGameProps = {
@@ -26,7 +28,7 @@ function createRandomMemoryLayout(food: string[], images: string[]) {
     const memoryCards = [];
     for(let i = 0; i < cardCount; i++ ){
         let selectedIndex = Math.floor(Math.random() * Math.floor(foodCopy.length-1));
-        const newMemoryCard : MemoryCardType = {id : i, content:foodCopy[selectedIndex], image:imageCopy[selectedIndex], state:0};
+        const newMemoryCard : Card = {id : i, content:foodCopy[selectedIndex], image:imageCopy[selectedIndex], state:0};
         memoryCards.push(newMemoryCard);
         foodCopy.splice(selectedIndex,1);
         imageCopy.splice(selectedIndex,1);
@@ -34,30 +36,9 @@ function createRandomMemoryLayout(food: string[], images: string[]) {
     return memoryCards;
 }
 
-function getDefaultPlayers(props:any){
-    const gamePlayers: GamePlayer[] = [];
-    for(let i = 0; i < props.playerCount; i++){
-        let onturn = false;
-        if(i===0) onturn = true;
-        const newPlayer: GamePlayer = { id: i, name : 'Player'+i, nachos : 0, onTurn: onturn };
-        gamePlayers.push(newPlayer);
-    }
-    return gamePlayers;
-}
 
-//Warum gehts nur mit diesem shit???
-type playerProps = {
-    player: GamePlayer
-}
-function DisplayPlayers( {player} : playerProps){
-    if(player.onTurn === true){
-        return <p>{player.name} {player.nachos} onTurn</p>;
-    } else {
-        return <p>{player.name} {player.nachos}</p>;
-    }
-}
 
-function getWinner(players: GamePlayer[]){
+function getWinner(players: Player[]){
     let nachos: number[] = [];
     players.forEach(players => {
         nachos.push(players.nachos);
@@ -70,13 +51,24 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
     const food = ['burrito', 'nacho', 'tortilla', 'enchillada', 'chimichanga', 'taco'];
     const images = [imageBurrito, imageNacho, imageTortilla, imageEnchilada, imageChimichanga, imageTaco ];
 
-    const [memoryCards,setMemoryCards] = useState(createRandomMemoryLayout(food, images));
-    const [players, setPlayers] = useState(getDefaultPlayers(playerCount));
+    const {room} = useRoom();
+
+    useEffect(() => {
+        const setUpMemoryBoard =  async () => {
+            if (room) await setMemoryCards(room.id, createRandomMemoryLayout(food, images));
+        };
+        setUpMemoryBoard();
+    }, []);
+
+    const players: Player[] = room?.players ?? [];
+    //console.log(players);
+    console.log(room?.memoryCards);
 
     const onClick = (index : number)=> {
         // warum muss man das so machen??
         // setMemoryCards(createNewStates(memoryCards, index)); geht nicht warum ?? :(
-        let updatedValues = updateMemoryCards(memoryCards, players, index);
+        let updatedValues;
+        if(room) updatedValues =  updateMemoryCards(room?.memoryCards, room?.players, index);
         let newMemoryCards = [...memoryCards];
         let updatedCards = updatedValues.memoryCards;
         for (let i = 0; i < memoryCards.length; i++){
@@ -97,9 +89,15 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
 
     return (
         <div className="memory-game">
-            <MemoryCardList memoryCards={memoryCards} onClick={onClick} />
+            {/*<MemoryCardList memoryCards={memoryCards} onClick={onClick} />*/}
             {players.map((player)=>
-                <DisplayPlayers player={player}/>
+            {
+                if(player.isOnTurn){
+                        return <p>{player.name} {player.nachos} onTurn</p>;
+                    } else {
+                        return <p>{player.name} {player.nachos}</p>;
+                    }
+                }
             )}
         </div>
     );

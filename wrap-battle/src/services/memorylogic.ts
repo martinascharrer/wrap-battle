@@ -1,10 +1,11 @@
 
-import { MemoryCardType } from '../types/memoryCardType';
-import { GamePlayer } from '../types/gamePlayer';
+import { Card } from '../types/card';
+import { Player } from '../types/player';
 
-export function updateMemoryCards( MemoryCards: MemoryCardType[], GamePlayers: GamePlayer[], ClickedIndex : number){
+export function updateMemoryCards( MemoryCards: Card[], Players: Player[], ClickedIndex : number){
+    
     let memoryCards = MemoryCards;
-    let gamePlayers = GamePlayers;
+    let gamePlayers = Players;
     let gameOver = false;
     memoryCards[ClickedIndex].state = 1;
     const uncoveredCards = memoryCards.filter(memoryCard => memoryCard.state === 1);
@@ -43,7 +44,7 @@ export function updateMemoryCards( MemoryCards: MemoryCardType[], GamePlayers: G
     return {memoryCards, gamePlayers, gameOver};
 }
 
-export function resetValues(memoryCards: MemoryCardType[]){
+export function resetValues(memoryCards: Card[]){
     const uncoveredCards = memoryCards.filter(memoryCard => memoryCard.state === 1);
     if(uncoveredCards.length === 2){
         let uncoveredIDs : number[] = [];
