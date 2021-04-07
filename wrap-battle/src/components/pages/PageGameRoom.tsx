@@ -1,16 +1,14 @@
-import { useParams } from 'react-router-dom';
 import { MemoryGame } from '../parts/MemoryGame';
-
-interface roomParams {
-    id: string;
-}
+import {Header} from '../parts/Header';
+import {PointsOverview} from '../parts/PointsOverview';
 
 export const PageGameRoom = () => {
-    const params: roomParams = useParams();
+
     return (
-        <div className="pageWaitingRoom">
-            you are in game room: <em>{params.id}</em>
+        <div className="pageGameRoom">
+            <Header />
             <MemoryGame playerCount = {3} />
+            <PointsOverview/>
         </div>
     );
 };

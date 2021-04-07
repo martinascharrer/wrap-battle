@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -56,12 +57,178 @@
     height: 100%;
 }
 .logo {
-  margin-top: 200px;
+  margin-bottom: 20px;
   height: 200px ;
 }
 
 body {
   background-image: url("./assets/images/bg-pattern.png");
+
+}
+
+.textfield {
+  width: 350px;
+}
+
+.background {
+  margin: auto;
+  margin-top: 100px;
+  width: 500px;
+  height: 500px;
+  background-color: rgba(255,255,255, 0.8);
+  border-radius: 10px;
+  padding: 30px;
+
+}
+
+.playerlist {
+  margin: auto;
+  margin-top: 20px;
+  width: 240px;
+  height: 500px;
+  background-color: rgba(255,255,255, 0.8);
+  border-radius: 10px;
+  padding: 30px;
+
+}
+
+.roomPin {
+  font-size: 30pt;
+  font-weight: bold;
+  margin: auto;
+  margin-top: 100px;
+  width: 300px;
+  height: 70px;
+  background-color: rgba(255,255,255, 0.8);
+  border-radius: 10px;
+  padding-top: 10px;
 }
 
 
+.copyButton {
+  width: 30px;
+  padding-top: 15px;
+  margin-left: 20px;
+   }
+
+
+.ButtonCreateRoom {
+  width: 150px;
+  height: 50px;
+ }
+
+.ButtonJoinRoom {
+  width: 150px;
+  height: 50px;
+}
+
+.ButtonBackHome {
+    height: 30px;
+}
+
+.ButtonNewRoom {
+  height: 30px;
+}
+
+.header {
+  background-color: #F1D9AF;
+  width: 100%;
+  height: 60px;
+}
+
+.header-logo {
+  margin-top: 5px;
+  height: 50px ;
+  float: left;
+}
+
+.header-heading {
+  float: left;
+  margin-top: 5px;
+  margin-left: 20px;
+}
+
+.header-heading {
+  float: left;
+  margin-top: 5px;
+  margin-left: 20px;
+}
+
+.header-text {
+  margin: auto;
+  padding-top: 13px;
+  margin-right: 20px;
+  font-size: 18pt;
+
+}
+.header-timecount {
+  float: right;
+  margin-top: 7px;
+  margin-right: 10px;
+  font-size: 25pt;
+  font-weight: bold;
+}
+
+.header-stopwatch {
+  height: 50px;
+  float: right;
+  margin-top: 5px;
+  margin-right: 20px;
+  font-size: 15pt;
+}
+
+.footer {
+  width: 100%;
+  height: 30px;
+  background-color: #F1D9AF;
+  position: absolute;
+  bottom: 0;
+  font-weight: normal;
+
+}
+
+.footer-waiting {
+  float: left;
+  margin: auto;
+  padding-left: 30px;
+  padding-top: 2px;
+}
+
+.footer-room-id {
+  float: right;
+  margin: auto;
+  padding-right: 30px;
+  padding-top: 2px;
+}
+
+.host{
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+.players{
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+.hostNameWait{
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+.playerNameWait{
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+.waitforhost{
+  position: absolute;
+  right: 42.7%;
+  top: 75%;
+  padding-right: 50px;
+}
+
+.versus{
+  height: 100px;
+  margin-bottom: 20px;
+}
