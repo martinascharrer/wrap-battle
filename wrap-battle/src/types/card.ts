@@ -1,13 +1,12 @@
 export enum CardState {
     CLOSED,
     OPENED,
-    FINISHED
+    FINISHED,
 }
 
-
-export interface Card {
+export type Card = {
     id: number;
-    content: string,
-    image: string,
-    state: CardState
-}
+    content: string;
+    image: string;
+    state: CardState;
+};

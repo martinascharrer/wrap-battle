@@ -2,30 +2,36 @@ import React from 'react';
 
 import logo from '../../assets/images/logo_outlined.png';
 import stopwatch from '../../assets/svg/stopwatch.svg';
+import { Player } from '../../types/player';
 
+type headerProps = {
+    playerOnTurn?: Player;
+};
 
-
-
-
-export const Header = () => {
-
+export const Header = ({ playerOnTurn }: headerProps) => {
     return (
         <div className="header">
-            <img src={logo}
-                 alt="logo"
-                 className="header-logo"
-                 data-testid="header logo"
+            <img
+                src={logo}
+                alt="logo"
+                className="header-logo"
+                data-testid="header logo"
             />
             <h1 className="header-heading">LET'S FIGHT</h1>
-            <img src={stopwatch}
-                 alt="stopwatch"
-                 className="header-stopwatch"
-                 data-testid="header stopwatch"
+            <img
+                src={stopwatch}
+                alt="stopwatch"
+                className="header-stopwatch"
+                data-testid="header stopwatch"
             />
-            <p className="header-timecount"> 12 </p>
-            <p className="header-text" > <b>PlayerName's turn...</b> </p>
-
-
+            <p className="header-timecount">
+                {' '}
+                {playerOnTurn && playerOnTurn.timeLeft}{' '}
+            </p>
+            <p className="header-text">
+                {' '}
+                {playerOnTurn && <b>{playerOnTurn.name}'s turn...</b>}
+            </p>
         </div>
     );
 };
