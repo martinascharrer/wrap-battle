@@ -34,7 +34,7 @@ function createRandomMemoryLayout(food: string[], images: string[]) {
     return memoryCards;
 }
 
-function getDefaultPlayer(props:any){
+function getDefaultPlayers(props:any){
     const gamePlayers: GamePlayer[] = [];
     for(let i = 0; i < props.playerCount; i++){
         let onturn = false;
@@ -71,7 +71,7 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
     const images = [imageBurrito, imageNacho, imageTortilla, imageEnchilada, imageChimichanga, imageTaco ];
 
     const [memoryCards,setMemoryCards] = useState(createRandomMemoryLayout(food, images));
-    const [players, setPlayers] = useState(getDefaultPlayer(playerCount));
+    const [players, setPlayers] = useState(getDefaultPlayers(playerCount));
 
     const onClick = (index : number)=> {
         // warum muss man das so machen??
