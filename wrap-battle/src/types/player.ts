@@ -1,4 +1,7 @@
 export interface Player {
     id: string,
-    name: string
+    name: string,
+    nachos: number,
+    isOnTurn: boolean,
+    isHost: boolean
 }

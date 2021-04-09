@@ -22,14 +22,15 @@ const useRoom = (): Output => {
             .doc(params.id)
             .onSnapshot((room) => {
                 if (room.exists)
-                    setRoom({ ...room.data(), id: params.id } as Room);
+                    setRoom(()=> {return { ...room.data(), id: params.id } as Room;
+                });
                 else console.log('Room Not Found');
             });
 
         return () => {
             unsubscribe();
         };
-    });
+    }, []);
 
     return { room };
 };

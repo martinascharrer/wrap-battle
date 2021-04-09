@@ -1,16 +1,13 @@
+import { MemoryGame } from '../parts/MemoryGame';
 import {Header} from '../parts/Header';
-import {GameField} from '../parts/GameField';
 import {PointsOverview} from '../parts/PointsOverview';
-
-
-
 
 export const PageGameRoom = () => {
 
     return (
         <div className="pageGameRoom">
             <Header />
-            <GameField/>
+            <MemoryGame playerCount = {3} />
             <PointsOverview/>
         </div>
     );

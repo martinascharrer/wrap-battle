@@ -38,18 +38,17 @@ export const WaitingOverview = () => {
             <div className="playerlist">
                 <img className="versus" src={versus} alt="versus" />
                 <br />
-                <h4 className="host">HOST: </h4>
-                {room?.host.name}
                 <p>
                     <h4 className="players"> PLAYERS: </h4>
-                    {room?.participants.map((p) => (
+                    {room?.players.map((p) => (
                         <p className="playerNameWait" key={p.name}>
                             {' '}
                             {p.name}
+                            {p.isHost}
                         </p>
                     ))}
                 </p>
-                {room?.host.id === player?.id ? (
+                {/*room?.host.id === player?.id ? (
                     <Button
                         onClick={startGame}
                         className="ButtonStartGame"
@@ -64,7 +63,7 @@ export const WaitingOverview = () => {
                         {' '}
                         Waiting for other players{' '}
                     </span>
-                )}
+                )*/}
             </div>
 
             <div className="copyButtonContainer"></div>
