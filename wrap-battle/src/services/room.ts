@@ -2,13 +2,13 @@ import firebase from 'firebase/app';
 import { genId } from '../utils/room';
 import { firestore } from './firestore';
 import { Room } from '../types/room';
-import { createPlayer} from './player';
 import { Card } from '../types/card';
+import { createHost, createPlayer } from './player';
 
 export async function createRoom(name: string): Promise<string | null> {
     const roomId = genId();
     try {
-        const player = createPlayer(name, true);
+        const player = createHost(name);
         const room: Room = {
             id: roomId,
             created: firebase.firestore.FieldValue.serverTimestamp(),
@@ -16,7 +16,7 @@ export async function createRoom(name: string): Promise<string | null> {
             maxPlayers: 5,
             memoryCards: [],
             timePerTurn: 25,
-            isActive: false
+            isActive: false,
         };
         await firestore.collection('rooms').doc(roomId).set(room);
     } catch (e) {
@@ -42,6 +42,16 @@ export async function joinRoom(roomId: string, name: string) {
     }
 }
 
+export async function setGameActive(roomId: string) {
+    try {
+        await firestore
+            .collection('rooms')
+            .doc(roomId)
+            .update({ isActive: true });
+    } catch (e) {
+        console.error(e);
+    }
+}
 
 export async function setMemoryCards(roomId: string, memoryCards: Card[] ) {
     try {
