@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Card } from '../../types/card';
 import { Player } from '../../types/player';
 import {MemoryCardList} from './MemoryCardList';
-import { resetValues, updateMemoryCards } from '../../services/memorylogic';
+import { resetValues, updateGameState, updatePlayerOnTurn, updateMemoryCard, getUncoveredIndexes} from '../../services/memorylogic';
 import imageTaco from '../../assets/images/food/taco.jpg';
 import imageBurrito from '../../assets/images/food/burrito.jpg';
 import imageNacho from '../../assets/images/food/nacho.jpg';
@@ -36,8 +36,6 @@ function createRandomMemoryLayout(food: string[], images: string[]) {
     return memoryCards;
 }
 
-
-
 function getWinner(players: Player[]){
     let nachos: number[] = [];
     players.forEach(players => {
@@ -50,7 +48,6 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
 
     const food = ['burrito', 'nacho', 'tortilla', 'enchillada', 'chimichanga', 'taco'];
     const images = [imageBurrito, imageNacho, imageTortilla, imageEnchilada, imageChimichanga, imageTaco ];
-
     const {room} = useRoom();
 
     useEffect(() => {
@@ -61,22 +58,36 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
     }, []);
 
     const players: Player[] = room?.players ?? [];
-    //console.log(players);
-    console.log(room?.memoryCards);
+
 
     const onClick = (index : number)=> {
-        // warum muss man das so machen??
-        // setMemoryCards(createNewStates(memoryCards, index)); geht nicht warum ?? :(
         if(room) {
-            let updatedValues =  updateMemoryCards(room?.memoryCards, room?.players, index);
-            setMemoryCards(room.id, updatedValues.memoryCards);
-            setTimeout(() => {
-                setMemoryCards(room.id, resetValues(room?.memoryCards));
-                if(updatedValues.gameOver) {
-                    let winner = getWinner(players);
-                    alert('game over, the winner is ' + winner.name + ' with: ' + winner.nachos + ' nachos');
+            let uncoveredIndexes = getUncoveredIndexes(room?.memoryCards);
+            if(uncoveredIndexes.length <= 1){
+                setMemoryCards(room.id, updateMemoryCard(room?.memoryCards, index));
+                uncoveredIndexes.push(index);
+            }
+            if(uncoveredIndexes.length === 2){
+                setMemoryCards(room.id, updateGameState(room?.memoryCards, uncoveredIndexes));
+                if(room?.memoryCards[uncoveredIndexes[0]].state === 2){
+                    room.players.forEach(player => {
+                        if(player.isOnTurn) player.nachos++;
+                    });
+                    let winCardsCount = 0;
+                    room?.memoryCards.forEach(memoryCard => {
+                        if(memoryCard.state === 2) winCardsCount++;
+                    });
+                    if(winCardsCount === room?.memoryCards.length){
+                        let winner = getWinner(players);
+                        alert('game over, the winner is ' + winner.name + ' with: ' + winner.nachos + ' nachos');
+                    }
+                } else {
+                    room.players = updatePlayerOnTurn(players);
+                    setTimeout(() => {
+                        setMemoryCards(room.id, resetValues(room?.memoryCards, uncoveredIndexes));
+                    }, 1000);
                 }
-            }, 1000);
+            }
         }
     };
 
