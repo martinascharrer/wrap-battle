@@ -28,11 +28,16 @@ export const WaitingOverview = () => {
             <div className="WaitingOverview-roomPin" color="text.primary">
                 {' '}
                 <span id="copyText">{roomId}</span>
-                <img
-                    className="copyButton"
-                    src={copybutton}
-                    alt="copy-button"
-                />
+                <button className="copyButton">
+                    <img
+                        className="copysvg"
+                        src={copybutton}
+                        alt="copy-button"
+                        onClick={() => {
+                            if (roomId) navigator.clipboard.writeText(roomId);
+                        }}
+                    />
+                </button>
             </div>
 
             <div className="playerlist">

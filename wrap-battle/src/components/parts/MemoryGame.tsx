@@ -123,15 +123,19 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
             {players.map((player) => {
                 if (player.isOnTurn) {
                     return (
-                        <p>
-                            {player.name} {player.nachos} onTurn
-                        </p>
+                        <div className="MemoryGame-player-on-turn-score">
+                            <p>
+                                {player.name} {player.nachos} onTurn
+                            </p>
+                        </div>
                     );
                 } else {
                     return (
-                        <p>
-                            {player.name} {player.nachos}
-                        </p>
+                        <div className="MemoryGame-player-score">
+                            <p>
+                                {player.name} {player.nachos}
+                            </p>
+                        </div>
                     );
                 }
             })}

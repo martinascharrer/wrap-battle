@@ -121,6 +121,7 @@ body {
   background-color: rgb(255,245,220);
   border: none;
   }
+
 .copysvg {
   width: 30px;
   margin-left: -10px;
@@ -274,4 +275,52 @@ h1 {
 
 .PageScoreboard-nacho {
   height: 40px;
+}
+
+.PageGameRoom body{
+  background-color: #DDC090;
+
+}
+
+.memory-card-button{
+  background-image: url("./assets/images/card-pattern.jpg");
+  background-size: 200%;
+  width: 120px;
+  height: 120px;
+  font-size: 18pt;
+}
+
+.memory-game{
+  float: left;
+  margin-top: 30px;
+  margin-left: 30px;
+
+}
+
+.memory-card-content{
+  font-size: 14pt;
+
+  }
+
+.memory-card-image{
+  width: 119px;
+  height:120px;
+  margin-left: -9px;
+  marign-top: -20px;
+
+}
+
+.memory-card-safe {
+  font-size: 14pt;
+  color: #92C73F;
+  text-shadow: 1px 1px #565656;
+
+}
+
+.MemoryGame-player-score {
+
+}
+
+.MemoryGame-player-on-turn-score {
+
 }
