@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardState } from '../../types/card';
 import { Player } from '../../types/player';
 import {MemoryCardList} from './MemoryCardList';
@@ -67,22 +67,32 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
         imageJalapenos, imageSalsa ,imageFajitas];
     //players geht nicht 
     const {room, players, playerOnTurn} = useRoom();
+
+    /*
     const {time, start, pause, reset, status} = useTimer({
-        endTime: 45
+        initialTime: 20,
+        endTime: 0,
+        timerType: 'DECREMENTAL',
+        interval: 1000,
+        step: 1,
+        onTimeUpdate: (time) => {
+            players?.forEach(player => {
+                if(player.isOnTurn) player.timeLeft=time;
+            });
+            if(players&&room) setPlayers(room.id, players);
+        },
     });
+    */
 
     useEffect(() => {
         const setUpMemoryBoard =  async () => {
             if (room) await setMemoryCards(room.id, createRandomMemoryLayout(food, images));
         };
         setUpMemoryBoard();
-    },[]);
-
+    },[room?.isActive]);
 
     const onClick = (index : number)=> {
-        //getPlayerfromStorage updated nicht
-        const thisPlayer = room?.players.find((player) => player.id === getPlayerFromStorage()?.id);
-        if(room && thisPlayer?.isOnTurn) {
+        if(room && players && playerOnTurn?.id === getPlayerFromStorage()?.id) {
             let uncoveredIndexes = getUncoveredIndexes(room.memoryCards);
             if(!uncoveredIndexes.includes(index)){
                 if(uncoveredIndexes.length <= 1){
@@ -92,19 +102,20 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                 if(uncoveredIndexes.length === 2){
                     setMemoryCards(room.id, updateGameState(room.memoryCards, uncoveredIndexes));
     
-                    if(room?.memoryCards[uncoveredIndexes[0]].state === CardState.FINISHED){
-                        room?.players.forEach(player => {
-                            if(player.isOnTurn) player.nachos++;
+                    if(room.memoryCards[uncoveredIndexes[0]].state === CardState.FINISHED){
+                        players.forEach(player => {
+                            if(player.isOnTurn) {
+                                player.nachos++;
+                            } 
                         });
-                        setPlayers(room.id, room?.players);
-    
+                        setPlayers(room.id, players);
+
                         if(gameOver(room.memoryCards)){
-                            let winner = getWinner(room.players);
+                            let winner = getWinner(players);
                             alert('game over, the winner is ' + winner.name + ' with: ' + winner.nachos + ' nachos');
                         }
-    
                     } else {
-                        setPlayers(room.id, updatePlayerOnTurn(room.players));
+                        setPlayers(room.id, updatePlayerOnTurn(players));
                         setTimeout(() => {
                             setMemoryCards(room.id, resetValues(room.memoryCards, uncoveredIndexes));
                         }, 1000);
@@ -118,7 +129,7 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
     return (
         <div className="memory-game">
             {
-                room && (<MemoryCardList memoryCards={room.memoryCards} onClick={onClick} />)
+                room?.memoryCards && (<MemoryCardList memoryCards={room.memoryCards} onClick={onClick} />)
             }
             {
             players && players.map((player)=>
