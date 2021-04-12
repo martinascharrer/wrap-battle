@@ -3,6 +3,7 @@ import { genId } from '../utils/room';
 import { firestore } from './firestore';
 import { Room } from '../types/room';
 import { Card } from '../types/card';
+import { Player } from '../types/player';
 import { createHost, createPlayer } from './player';
 
 export async function createRoom(name: string): Promise<string | null> {
@@ -66,4 +67,19 @@ export async function setMemoryCards(roomId: string, memoryCards: Card[] ) {
         console.error(e);
     }
 }
+
+export async function setPlayers(roomId: string, players: Player[] ) {
+    try {
+        const room = await firestore.collection('rooms').doc(roomId).get();
+        if (room.exists) {
+            await firestore
+                .collection('rooms')
+                .doc(roomId)
+                .update({ players: players });
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 

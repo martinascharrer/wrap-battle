@@ -12,7 +12,7 @@ export function createPlayer(name: string, isHost: boolean = false) {
         id: genId(),
         name,
         isHost,
-        isOnTurn: false,
+        isOnTurn: isHost,
         nachos: 0,
         timeLeft: 20,
     };
