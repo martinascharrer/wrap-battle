@@ -42,7 +42,7 @@ const useRoom = (): roomOutput => {
         return () => {
             unsubscribe();
         };
-    },[]);
+    }, []);
 
     return { room, roomId, players, isActive, playerOnTurn, host };
 };

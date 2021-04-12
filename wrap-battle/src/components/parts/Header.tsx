@@ -25,13 +25,9 @@ export const Header = ({ playerOnTurn }: headerProps) => {
                 data-testid="header stopwatch"
             />
             <p className="header-timecount">
-                {' '}
-                {playerOnTurn && playerOnTurn.timeLeft}{' '}
+                {playerOnTurn && playerOnTurn.timeLeft}
             </p>
-            <p className="header-text">
-                {' '}
-                {playerOnTurn && <b>{playerOnTurn.name}'s turn...</b>}
-            </p>
+            <p className="header-text">{playerOnTurn && playerOnTurn.name}</p>
         </div>
     );
 };
