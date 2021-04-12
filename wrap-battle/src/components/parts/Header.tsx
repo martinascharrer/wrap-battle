@@ -8,7 +8,7 @@ type headerProps = {
     playerOnTurn?: Player;
 };
 
-export const Header = ({ playerOnTurn }: headerProps) => {
+export const Header = ( {playerOnTurn }: headerProps) => {
     return (
         <div className="header">
             <img
@@ -17,7 +17,7 @@ export const Header = ({ playerOnTurn }: headerProps) => {
                 className="header-logo"
                 data-testid="header logo"
             />
-            <h1 className="header-heading">LET'S FIGHT</h1>
+            <h2 className="header-heading">LET'S FIGHT</h2>
             <img
                 src={stopwatch}
                 alt="stopwatch"

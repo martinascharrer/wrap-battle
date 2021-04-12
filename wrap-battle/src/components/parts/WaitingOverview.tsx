@@ -25,7 +25,7 @@ export const WaitingOverview = () => {
 
     return (
         <div className="waitingOverview">
-            <div className="roomPin" color="text.primary">
+            <div className="WaitingOverview-roomPin" color="text.primary">
                 {' '}
                 <span id="copyText">{roomId}</span>
                 <img
@@ -58,7 +58,7 @@ export const WaitingOverview = () => {
                         Start game
                     </Button>
                 ) : (
-                    <span className="waitforhost">
+                    <span className="WaitingOverview-waitforplayers">
                         {' '}
                         Waiting for other players{' '}
                     </span>
