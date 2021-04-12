@@ -58,6 +58,8 @@ function getWinner(players: Player[]){
     return players[nachos.indexOf(Math.max(...nachos))];
 }
 
+
+
 export const MemoryGame = (playerCount: memoryGameProps) => {
 
     const food = ['burrito', 'nachos', 'tortilla', 'enchillada', 'chimichanga', 'taco', 'chilli con carne', 'churros', 'gambas',
@@ -68,25 +70,45 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
     //players geht nicht 
     const {room, players, playerOnTurn} = useRoom();
 
-    /*
+    resetTimer(){
+        if(room && players ){
+            let newPlayers = updatePlayerOnTurn(players);
+            reset();
+            start();
+            players.forEach(player => {
+                if(player.isOnTurn) {
+                    player.timeLeft=time;
+                } 
+            });
+            setPlayers(room.id, newPlayers);
+        }
+    }
     const {time, start, pause, reset, status} = useTimer({
         initialTime: 20,
         endTime: 0,
         timerType: 'DECREMENTAL',
-        interval: 1000,
-        step: 1,
+        interval: 2000,
+        step: 2,
         onTimeUpdate: (time) => {
-            players?.forEach(player => {
-                if(player.isOnTurn) player.timeLeft=time;
-            });
-            if(players&&room) setPlayers(room.id, players);
+            if(room && players ){
+                players.forEach(player => {
+                    if(player.isOnTurn) {
+                        player.timeLeft=time;
+                    } 
+                });
+                setPlayers(room.id, players);
+            }
         },
+        onTimeOver: () => {
+            resetTimer();
+        }
     });
-    */
+
 
     useEffect(() => {
         const setUpMemoryBoard =  async () => {
             if (room) await setMemoryCards(room.id, createRandomMemoryLayout(food, images));
+            start();
         };
         setUpMemoryBoard();
     },[room?.isActive]);
