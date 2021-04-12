@@ -1,11 +1,11 @@
-
-import { Card } from '../types/card';
+import { Card, CardState } from '../types/card';
 import { Player } from '../types/player';
+
 
 export function getUncoveredIndexes(MemoryCards: Card[]){
     let indexes: number[] = [];
     MemoryCards.forEach(memoryCard => {
-        if(memoryCard.state === 1){
+        if(memoryCard.state === CardState.OPENED){
             indexes.push(memoryCard.id);
         }
     });
@@ -13,14 +13,14 @@ export function getUncoveredIndexes(MemoryCards: Card[]){
 }
 
 export function updateMemoryCard(MemoryCards: Card[], ClickedIndex : number){
-    MemoryCards[ClickedIndex].state = 1;
+    MemoryCards[ClickedIndex].state = CardState.OPENED;
     return MemoryCards;
 }
 
 export function updateGameState(MemoryCards: Card[], indexesOpenCards: number []){
     if(MemoryCards[indexesOpenCards[0]].content === MemoryCards[indexesOpenCards[1]].content){
-        MemoryCards[indexesOpenCards[0]].state = 2;
-        MemoryCards[indexesOpenCards[1]].state = 2;
+        MemoryCards[indexesOpenCards[0]].state = CardState.FINISHED;
+        MemoryCards[indexesOpenCards[1]].state = CardState.FINISHED;
     }
     return MemoryCards;
 }
@@ -41,7 +41,19 @@ export function updatePlayerOnTurn(players: Player[]){
 
 export function resetValues(memoryCards: Card[], indexes: number[]){
     indexes.forEach(index => {
-        memoryCards[index].state = 0;
+        memoryCards[index].state = CardState.CLOSED;
     });
     return memoryCards;
+}
+
+export function gameOver(memoryCards: Card[]){
+    let winCardsCount = 0;
+    memoryCards.forEach(memoryCard => {
+        if(memoryCard.state === CardState.FINISHED) winCardsCount++;
+    });
+    if(winCardsCount === 12){
+        return true;
+    } else {
+        return false;
+    }
 }
