@@ -10,13 +10,13 @@ function ShowContent(props: {memorycard: Card}){
         return <div></div>;
     } else if (props.memorycard.state === 1) {
         if(props.memorycard.image !== 'no') {
-            return <img src={props.memorycard.image} alt="memoryCardImage" width="80" height="80" />;
+            return <img src={props.memorycard.image} alt="memoryCardImage" width="40" height="40" />;
         } else {
             return <h1>{props.memorycard.content}</h1>;
         }
     } else {
         if(props.memorycard.image !== 'no') {
-            return <div><img src={props.memorycard.image} alt="memoryCardImage" width="80" height="80" /> safe </div>;
+            return <div><img src={props.memorycard.image} alt="memoryCardImage" width="40" height="40" /> safe </div>;
         } else {
             return <h1>{props.memorycard.content} safe</h1>;
         }
