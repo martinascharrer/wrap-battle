@@ -32,7 +32,6 @@ import useRoom from '../../hooks/useRoom';
 import { setMemoryCards, setPlayers } from '../../services/room';
 import { getPlayerFromStorage } from '../../services/player';
 
-// muss man das immer machen?
 type memoryGameProps = {
     playerCount: number;
 };
@@ -209,5 +208,6 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
         </div>
     );
 };
+
 
 export default MemoryGame;
