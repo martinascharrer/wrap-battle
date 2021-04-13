@@ -38,24 +38,7 @@
   }
 }
 
-.memory-card-list {
-  width: 60%;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 5px;
-}
 
-
-.memory-card {
-  width: 60px;
-  height: 60px;
-}
-
-
-.memory-card-button {
-    width: 100%;
-    height: 100%;
-}
 .logo {
   margin-bottom: 20px;
   height: 200px ;
@@ -85,7 +68,7 @@ body {
 .WaitingOverview-logo{
   height: 200px;
   float:left;
-  margin-top: -50px;
+  margin-top: -60px;
   margin-left: 55px;
 }
 
@@ -233,12 +216,17 @@ body {
 
 .playerNameWait{
   font-size: 16pt;
-  font-weight: bold;
+  padding-right: 40px;
+
 }
 
+.playerNameList{
+  margin-bottom: 50px;
+}
+
+
 .WaitingOverview-waitforplayers{
-  position: relative;
-  top: 55%;
+  margin-bottom: 120px;
 }
 
 .versus{
@@ -279,38 +267,55 @@ h1 {
 
 .memory-card-button{
   background-image: url("./assets/images/card-pattern.jpg");
-  background-size: 200%;
-  width: 120px;
-  height: 120px;
+  background-size: 250%;
+  width: 100px;
+  height: 100px;
   font-size: 18pt;
 }
 
 .memory-game{
+  float:left;
   margin-top: 30px;
   margin-left: 30px;
-  width: 1400px;
-  height: 2500px;
+  width: 1000px;
+  height: 800px;
+}
+.playerOnTurn{
+  float:right;
+  margin-bottom: 20px;
+  background-color: #DDC090;
+  width: 200px;
+  height: 40px;
+  font-weight: bold;
 
+}
+.playerNotOnTurn{
+  float:right;
+  margin-bottom: 20px;
+  background-color: #DDC090;
+  width: 200px;
+  height: 40px;
 }
 
 .memory-card-content{
-  font-size: 14pt;
-
+  font-size: 12pt;
   }
 
-.memory-card-image{
-  width: 119px;
-  height:120px;
-  margin-left: -9px;
-  margin-top: 0px;
-
+.memory-card-list {
+  margin: auto;
+  width: 70%;
+  height: 85%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
 }
 
-.memory-card-safe {
-  font-size: 14pt;
-  color: #92C73F;
-  text-shadow: 1px 1px #565656;
-
+.memory-card-image{
+  width:  96px;
+  height: 96px;
+  background-color: #fff2dc;
+  border: 2px solid black;
+  margin-left: -8px;
+  margin-top: -3px;
 }
 
 .MemoryGame-player-score {
@@ -319,4 +324,9 @@ h1 {
 
 .MemoryGame-player-on-turn-score {
 
+}
+
+.nacho-points {
+  height: 20px;
+  padding-top: 5px;
 }

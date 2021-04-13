@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Card, CardState } from '../../types/card';
 import { Player } from '../../types/player';
 import { MemoryCardList } from './MemoryCardList';
@@ -13,6 +13,7 @@ import {
 import imageTaco from '../../assets/svg/taco.svg';
 import imageBurrito from '../../assets/svg/burrito.svg';
 import imageNachos from '../../assets/svg/nachos.svg';
+import nachoPoints from '../../assets/svg/nacho.svg';
 import imageEnchilada from '../../assets/svg/enchilada.svg';
 import imageChimichanga from '../../assets/svg/chimichanga.svg';
 import imageTortilla from '../../assets/svg/tortilla.svg';
@@ -193,21 +194,32 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                 players.map((player) => {
                     if (player.isOnTurn) {
                         return (
-                            <p>
-                                {player.name} {player.nachos} onTurn
-                            </p>
+                            <div className="playerOnTurn">
+                                {player.name} {player.nachos}
+                                <img
+                                    className="nacho-points"
+                                    src={nachoPoints}
+                                    alt="nacho"
+                                />{' '}
+                                <br />
+                            </div>
                         );
                     } else {
                         return (
-                            <p>
-                                {player.name} {player.nachos}
-                            </p>
+                            <div className="playerNotOnTurn">
+                                {player.name} {player.nachos}{' '}
+                                <img
+                                    className="nacho-points"
+                                    src={nachoPoints}
+                                    alt="nacho"
+                                />{' '}
+                                <br />
+                            </div>
                         );
                     }
                 })}
         </div>
     );
 };
-
 
 export default MemoryGame;

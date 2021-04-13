@@ -43,8 +43,8 @@ export const WaitingOverview = () => {
             <div className="playerlist">
                 <img className="versus" src={versus} alt="versus" />
                 <br />
-                <h4 className="players"> PLAYERS: </h4>
-                <ul data-testid="player list">
+                <h4 className="players"> PLAYERS </h4>
+                <ul data-testid="player list" className="playerNameList">
                     {players?.map((player) => (
                         <li className="playerNameWait" key={player.name}>
                             {player.name}

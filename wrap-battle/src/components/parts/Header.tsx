@@ -8,7 +8,7 @@ type headerProps = {
     playerOnTurn?: Player;
 };
 
-export const Header = ( {playerOnTurn }: headerProps) => {
+export const Header = ({ playerOnTurn }: headerProps) => {
     return (
         <div className="header">
             <img
@@ -27,7 +27,9 @@ export const Header = ( {playerOnTurn }: headerProps) => {
             <p className="header-timecount">
                 {playerOnTurn && playerOnTurn.timeLeft}
             </p>
-            <p className="header-text">{playerOnTurn && playerOnTurn.name}</p>
+            <p className="header-text">
+                {playerOnTurn && playerOnTurn.name} is picking cards{' '}
+            </p>
         </div>
     );
 };
