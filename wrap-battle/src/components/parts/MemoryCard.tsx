@@ -14,8 +14,7 @@ function ShowContent(props: { memorycard: Card }) {
                 <img
                     src={props.memorycard.image}
                     alt="memoryCardImage"
-                    width="40"
-                    height="40"
+                    className="memory-card-image"
                 />
             );
         } else {
