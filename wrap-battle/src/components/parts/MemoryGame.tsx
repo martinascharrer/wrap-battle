@@ -8,7 +8,7 @@ import {
     updatePlayerOnTurn,
     updateMemoryCard,
     getUncoveredIndexes,
-    gameOver,
+    isGameOver,
 } from '../../services/memorylogic';
 import imageTaco from '../../assets/svg/taco.svg';
 import imageBurrito from '../../assets/svg/burrito.svg';
@@ -30,7 +30,7 @@ import imageJalapenos from '../../assets/svg/jalapenos.svg';
 import imageSalsa from '../../assets/svg/salsa.svg';
 import imageFajitas from '../../assets/svg/facitas.svg';
 import useRoom from '../../hooks/useRoom';
-import { setMemoryCards, setPlayers } from '../../services/room';
+import { setGameOver, setMemoryCards, setPlayers } from '../../services/room';
 import { getPlayerFromStorage } from '../../services/player';
 
 type memoryGameProps = {
@@ -126,7 +126,7 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
         setUpMemoryBoard();
     }, [room?.isActive]);
 
-    const onClick = (index: number) => {
+    const onClick = async (index: number) => {
         if (
             room &&
             players &&
@@ -135,14 +135,14 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
             let uncoveredIndexes = getUncoveredIndexes(room.memoryCards);
             if (!uncoveredIndexes.includes(index)) {
                 if (uncoveredIndexes.length <= 1) {
-                    setMemoryCards(
+                    await setMemoryCards(
                         room.id,
                         updateMemoryCard(room.memoryCards, index)
                     );
                     uncoveredIndexes.push(index);
                 }
                 if (uncoveredIndexes.length === 2) {
-                    setMemoryCards(
+                    await setMemoryCards(
                         room.id,
                         updateGameState(room.memoryCards, uncoveredIndexes)
                     );
@@ -156,20 +156,14 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                                 player.nachos++;
                             }
                         });
-                        setPlayers(room.id, players);
+                        await setPlayers(room.id, players);
 
-                        if (gameOver(room.memoryCards)) {
-                            let winner = getWinner(players);
-                            alert(
-                                'game over, the winner is ' +
-                                    winner.name +
-                                    ' with: ' +
-                                    winner.nachos +
-                                    ' nachos'
-                            );
+                        if (isGameOver(room.memoryCards)) {
+                            const winner = getWinner(players);
+                            await setGameOver(room.id, winner);
                         }
                     } else {
-                        setPlayers(room.id, updatePlayerOnTurn(players));
+                        await setPlayers(room.id, updatePlayerOnTurn(players));
                         setTimeout(() => {
                             setMemoryCards(
                                 room.id,
@@ -194,7 +188,7 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                 players.map((player) => {
                     if (player.isOnTurn) {
                         return (
-                            <div className="playerOnTurn">
+                            <div className="playerOnTurn" key={player.id}>
                                 {player.name} {player.nachos}
                                 <img
                                     className="nacho-points"
@@ -206,7 +200,7 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                         );
                     } else {
                         return (
-                            <div className="playerNotOnTurn">
+                            <div className="playerNotOnTurn" key={player.id}>
                                 {player.name} {player.nachos}{' '}
                                 <img
                                     className="nacho-points"
@@ -221,5 +215,3 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
         </div>
     );
 };
-
-export default MemoryGame;

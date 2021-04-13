@@ -4,8 +4,12 @@ import nacho from '../../assets/svg/nacho.svg';
 import { Button } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import useRoom from '../../hooks/useRoom';
+import { ScoreOverview } from '../parts/ScoreOverview';
 
 export const PageScoreBoard = () => {
+    const { players } = useRoom();
+
     return (
         <div className="pageScoreboard">
             <HeaderScores />
@@ -15,16 +19,7 @@ export const PageScoreBoard = () => {
                     src={trophy}
                     alt="trophy"
                 />
-                <h1 className="PageScoreboard-headline">WINNER</h1>
-                <p className="PageScoreboard-winner">
-                    Player{' '}
-                    <img
-                        className="PageScoreboard-nacho"
-                        src={nacho}
-                        alt="nacho"
-                    />
-                </p>
-
+                <ScoreOverview players={players ?? []} />
                 <br />
                 <Link to="/">
                     <Button

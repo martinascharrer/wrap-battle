@@ -13,8 +13,10 @@ const mockPlayer: Player = {
 
 describe('Header', () => {
     test('It should render the players name and remaining time.', () => {
-        const { getByText } = render(<Header playerOnTurn={mockPlayer} />);
-        expect(getByText('3'));
-        expect(getByText('Hans'));
+        const { getByTestId } = render(<Header playerOnTurn={mockPlayer} />);
+        expect(getByTestId('time counter').innerHTML).toBe('3');
+        expect(getByTestId('player on turn').innerHTML).toBe(
+            'Hans is picking cards'
+        );
     });
 });

@@ -249,20 +249,35 @@ h2 {
 h1 {
   font-size: 35pt;
 }
-.PageScoreboard-heading {
-  font-size: 20pt;
+.PageScoreBoard-listItem {
+  font-size: 15pt;
+  padding: 10px 30px;
 }
 
-.PageScoreboard-winner {
-  margin-bottom: 70px;
+.PageScoreBoard-listItem--winner {
+  font-weight: bold;
+  background:  #F1D9AF;
+  border-radius: 10px;
 }
 
 .PageScoreboard-ButtonPlayAgain {
 
 }
 
-.PageScoreboard-nacho {
+.PageScoreboard-nachos {
+    display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60px;
+}
+
+.PageScoreboard-nachoImage {
   height: 40px;
+}
+
+.PageScoreBoard-listItem {
+  display: flex;
+  justify-content: space-between;
 }
 
 .memory-card-button{
