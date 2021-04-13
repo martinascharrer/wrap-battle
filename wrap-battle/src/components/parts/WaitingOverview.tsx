@@ -39,15 +39,15 @@ export const WaitingOverview = () => {
                 <img className="versus" src={versus} alt="versus" />
                 <br />
                 <h4 className="players"> PLAYERS: </h4>
-                <p data-testid="player list">
+                <ul data-testid="player list">
                     {players?.map((player) => (
-                        <p className="playerNameWait" key={player.name}>
+                        <li className="playerNameWait" key={player.name}>
                             {player.name}
                             {player.isHost && ' (host)'}
-                        </p>
+                        </li>
                     ))}
-                </p>
-                {host?.id === player?.id ? (
+                </ul>
+                {host && host?.id === player?.id ? (
                     <Button
                         onClick={startGame}
                         className="ButtonStartGame"
