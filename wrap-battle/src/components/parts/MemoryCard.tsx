@@ -13,14 +13,13 @@ function CardContent(props: { memoryCard: Card }) {
                     <img
                         src={props.memoryCard.image}
                         alt="memoryCardImage"
-                        width="40"
-                        height="40"
                         data-testid="card image"
+                        className="memory-card-image"
                     />
                 </div>
             );
         } else {
-            return <h1 data-testid="card text">{props.memoryCard.content}</h1>;
+            return <h1 className="memory-card-content" data-testid="card text">{props.memoryCard.content}</h1>;
         }
     } else {
         return <div />;

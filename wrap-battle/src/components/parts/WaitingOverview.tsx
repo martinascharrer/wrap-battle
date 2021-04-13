@@ -25,21 +25,26 @@ export const WaitingOverview = () => {
 
     return (
         <div className="waitingOverview">
-            <div className="roomPin" color="text.primary">
+            <div className="WaitingOverview-roomPin" color="text.primary">
                 {' '}
                 <span id="copyText">{roomId}</span>
-                <img
-                    className="copyButton"
-                    src={copybutton}
-                    alt="copy-button"
-                />
+                <button className="copyButton">
+                    <img
+                        className="copysvg"
+                        src={copybutton}
+                        alt="copy-button"
+                        onClick={() => {
+                            if (roomId) navigator.clipboard.writeText(roomId);
+                        }}
+                    />
+                </button>
             </div>
 
             <div className="playerlist">
                 <img className="versus" src={versus} alt="versus" />
                 <br />
-                <h4 className="players"> PLAYERS: </h4>
-                <ul data-testid="player list">
+                <h4 className="players"> PLAYERS </h4>
+                <ul data-testid="player list" className="playerNameList">
                     {players?.map((player) => (
                         <li className="playerNameWait" key={player.name}>
                             {player.name}
@@ -58,7 +63,7 @@ export const WaitingOverview = () => {
                         Start game
                     </Button>
                 ) : (
-                    <span className="waitforhost">
+                    <span className="WaitingOverview-waitforplayers">
                         {' '}
                         Waiting for other players{' '}
                     </span>
