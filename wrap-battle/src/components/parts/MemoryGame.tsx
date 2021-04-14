@@ -58,8 +58,6 @@ function getWinner(players: Player[]){
     return players[nachos.indexOf(Math.max(...nachos))];
 }
 
-
-
 export const MemoryGame = (playerCount: memoryGameProps) => {
 
     const food = ['burrito', 'nachos', 'tortilla', 'enchillada', 'chimichanga', 'taco', 'chilli con carne', 'churros', 'gambas',
@@ -70,11 +68,10 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
     //players geht nicht 
     const {room, players, playerOnTurn} = useRoom();
 
-    resetTimer(){
+    const resetTimer = (updatePlayer:boolean) => {
         if(room && players ){
-            let newPlayers = updatePlayerOnTurn(players);
-            reset();
-            start();
+            let newPlayers = players;
+            if(updatePlayer) updatePlayerOnTurn(players);
             players.forEach(player => {
                 if(player.isOnTurn) {
                     player.timeLeft=time;
@@ -82,15 +79,17 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
             });
             setPlayers(room.id, newPlayers);
         }
-    }
+        start();
+    };
+
     const {time, start, pause, reset, status} = useTimer({
         initialTime: 20,
         endTime: 0,
         timerType: 'DECREMENTAL',
-        interval: 2000,
-        step: 2,
+        interval: 5000,
+        step: 5,
         onTimeUpdate: (time) => {
-            if(room && players ){
+            if(room && players){
                 players.forEach(player => {
                     if(player.isOnTurn) {
                         player.timeLeft=time;
@@ -100,15 +99,16 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
             }
         },
         onTimeOver: () => {
-            resetTimer();
-        }
+            reset();
+            resetTimer(true);
+        },
     });
 
 
     useEffect(() => {
+        start();
         const setUpMemoryBoard =  async () => {
             if (room) await setMemoryCards(room.id, createRandomMemoryLayout(food, images));
-            start();
         };
         setUpMemoryBoard();
     },[room?.isActive]);
@@ -122,6 +122,7 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                     uncoveredIndexes.push(index);
                 }
                 if(uncoveredIndexes.length === 2){
+                    reset();
                     setMemoryCards(room.id, updateGameState(room.memoryCards, uncoveredIndexes));
     
                     if(room.memoryCards[uncoveredIndexes[0]].state === CardState.FINISHED){
@@ -130,14 +131,14 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                                 player.nachos++;
                             } 
                         });
-                        setPlayers(room.id, players);
+                        resetTimer(false);
 
                         if(gameOver(room.memoryCards)){
                             let winner = getWinner(players);
                             alert('game over, the winner is ' + winner.name + ' with: ' + winner.nachos + ' nachos');
                         }
                     } else {
-                        setPlayers(room.id, updatePlayerOnTurn(players));
+                        resetTimer(true);
                         setTimeout(() => {
                             setMemoryCards(room.id, resetValues(room.memoryCards, uncoveredIndexes));
                         }, 1000);
