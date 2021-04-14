@@ -33,6 +33,7 @@ import useRoom from '../../hooks/useRoom';
 import { setMemoryCards, setPlayers } from '../../services/room';
 import { getPlayerFromStorage } from '../../services/player';
 import { useTimer } from 'use-timer';
+import { type } from 'node:os';
 
 type memoryGameProps = {
     playerCount: number;
@@ -79,55 +80,65 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
     const images = [imageBurrito, imageNachos, imageTortilla, imageEnchilada, imageChimichanga, imageTaco, imageChilliconcarne, 
         imageChurros, imageGambas, imageGazpacho, imageGuacamole, imageNachoCheese, imageSangria, imagePaella, imagePatatasBravas,
         imageJalapenos, imageSalsa ,imageFajitas];
-    //players geht nicht 
-    const {room, players, playerOnTurn} = useRoom();
+    const {room, players, playerOnTurn, host} = useRoom();
 
-    const resetTimer = (updatePlayer:boolean) => {
+    const resetTimer = async (updatePlayer:boolean) => {
+        if(getPlayerFromStorage()?.id === host?.id) reset();
         if(room && players ){
             let newPlayers = players;
             if(updatePlayer) updatePlayerOnTurn(players);
             players.forEach(player => {
-                if(player.isOnTurn) {
-                    player.timeLeft=time;
-                } 
+                player.timeLeft=20;
             });
-            setPlayers(room.id, newPlayers);
+            if(getPlayerFromStorage()?.id === host?.id) start();
+            await setPlayers(room.id, newPlayers);
         }
-        start();
     };
 
-    const {time, start, pause, reset, status} = useTimer({
+    const setTime = (players: Player[])=> {
+        if(getPlayerFromStorage()?.id === host?.id){
+            players.forEach(player => {
+                player.timeLeft=time;
+            });
+        }
+    };
+    
+    const {time, start, reset} = useTimer({
         initialTime: 20,
         endTime: 0,
         timerType: 'DECREMENTAL',
         interval: 5000,
         step: 5,
-        onTimeUpdate: (time) => {
-            if(room && players){
+        onTimeUpdate: async (time) => {
+            if(room && players&& getPlayerFromStorage()?.id === host?.id){
                 players.forEach(player => {
-                    if(player.isOnTurn) {
-                        player.timeLeft=time;
-                    } 
+                    player.timeLeft=time;
                 });
-                setPlayers(room.id, players);
+                await setPlayers(room.id, players);
             }
         },
-        onTimeOver: () => {
-            reset();
-            resetTimer(true);
+        onTimeOver: async () => {
+            if(getPlayerFromStorage()?.id === host?.id){
+                await resetTimer(true);
+            }
         },
     });
 
 
     useEffect(() => {
-        start();
+        if(getPlayerFromStorage()?.id === host?.id) start();
         const setUpMemoryBoard =  async () => {
             if (room) await setMemoryCards(room.id, createRandomMemoryLayout(food, images));
         };
         setUpMemoryBoard();
     }, [room?.isActive]);
 
-    const onClick = (index: number) => {
+
+    players?.forEach(player => {
+        if(player.isOnTurn) console.log(player.timeLeft);
+    });
+
+    const onClick = async (index: number) => {
         if (
             room &&
             players &&
@@ -136,15 +147,26 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
             let uncoveredIndexes = getUncoveredIndexes(room.memoryCards);
             if (!uncoveredIndexes.includes(index)) {
                 if (uncoveredIndexes.length <= 1) {
-                    setMemoryCards(
+                    await setMemoryCards(
                         room.id,
                         updateMemoryCard(room.memoryCards, index)
+                        
                     );
+                    /*
+                    setTime(players);
+                    await setPlayers(room.id, players );
+                    */
                     uncoveredIndexes.push(index);
                 }
                 if(uncoveredIndexes.length === 2){
-                    reset();
-                    setMemoryCards(room.id, updateGameState(room.memoryCards, uncoveredIndexes));
+                    await setMemoryCards(
+                        room.id, 
+                        updateGameState(room.memoryCards, uncoveredIndexes)
+                    );
+                    /*
+                    setTime(players);
+                    await setPlayers(room.id, players);
+                    */
     
                     if(room.memoryCards[uncoveredIndexes[0]].state === CardState.FINISHED){
                         players.forEach(player => {
@@ -152,7 +174,7 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                                 player.nachos++;
                             }
                         });
-                        resetTimer(false);
+                        await resetTimer(false);
 
                         if (gameOver(room.memoryCards)) {
                             let winner = getWinner(players);
@@ -165,7 +187,7 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                             );
                         }
                     } else {
-                        resetTimer(true);
+                        await resetTimer(true);
                         setTimeout(() => {
                             setMemoryCards(
                                 room.id,
