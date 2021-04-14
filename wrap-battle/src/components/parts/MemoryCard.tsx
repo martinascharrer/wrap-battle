@@ -1,33 +1,45 @@
 import { Card } from '../../types/card';
 
 type memoryCardProps = {
-    memoryCard : Card
+    memoryCard: Card;
     onClick: Function;
-}
+};
 
-function ShowContent(props: {memorycard: Card}){
-    if(props.memorycard.state === 0){
-        return <div></div>;
-    } else if (props.memorycard.state === 1) {
-        if(props.memorycard.image !== 'no') {
-            return <img src={props.memorycard.image} alt="memoryCardImage" width="40" height="40" />;
+function CardContent(props: { memoryCard: Card }) {
+    if (props.memoryCard.state !== 0) {
+        if (props.memoryCard.image !== 'no') {
+            return (
+                <div>
+                    <img
+                        src={props.memoryCard.image}
+                        alt="memoryCardImage"
+                        data-testid="card image"
+                        className="memory-card-image"
+                    />
+                </div>
+            );
         } else {
-            return <h1>{props.memorycard.content}</h1>;
+            return <h1 className="memory-card-content" data-testid="card text">{props.memoryCard.content}</h1>;
         }
     } else {
-        if(props.memorycard.image !== 'no') {
-            return <div><img src={props.memorycard.image} alt="memoryCardImage" width="40" height="40" /> safe </div>;
-        } else {
-            return <h1>{props.memorycard.content} safe</h1>;
-        }
+        return <div />;
     }
 }
 
-export const MemoryCard = ({memoryCard, onClick} : memoryCardProps) => {
+export const MemoryCard = ({ memoryCard, onClick }: memoryCardProps) => {
     return (
-        <div className="memory-card" >
-            <button className="memory-card-button" onClick = {()=> onClick(memoryCard.id)}>
-                <ShowContent memorycard={memoryCard}/>
+        <div
+            className={
+                memoryCard.state === 2
+                    ? 'memory-card card-finished'
+                    : 'memory-card'
+            }
+        >
+            <button
+                className="memory-card-button"
+                onClick={() => onClick(memoryCard.id)}
+            >
+                <CardContent memoryCard={memoryCard} />
             </button>
         </div>
     );

@@ -17,7 +17,7 @@ export const Header = ({ playerOnTurn }: headerProps) => {
                 className="header-logo"
                 data-testid="header logo"
             />
-            <h1 className="header-heading">LET'S FIGHT</h1>
+            <h2 className="header-heading">LET'S FIGHT</h2>
             <img
                 src={stopwatch}
                 alt="stopwatch"
@@ -25,12 +25,10 @@ export const Header = ({ playerOnTurn }: headerProps) => {
                 data-testid="header stopwatch"
             />
             <p className="header-timecount">
-                {' '}
-                {playerOnTurn && playerOnTurn.timeLeft}{' '}
+                {playerOnTurn && playerOnTurn.timeLeft}
             </p>
             <p className="header-text">
-                {' '}
-                {playerOnTurn && <b>{playerOnTurn.name}'s turn...</b>}
+                {playerOnTurn && playerOnTurn.name} is picking cards{' '}
             </p>
         </div>
     );

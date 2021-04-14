@@ -25,29 +25,34 @@ export const WaitingOverview = () => {
 
     return (
         <div className="waitingOverview">
-            <div className="roomPin" color="text.primary">
+            <div className="WaitingOverview-roomPin" color="text.primary">
                 {' '}
                 <span id="copyText">{roomId}</span>
-                <img
-                    className="copyButton"
-                    src={copybutton}
-                    alt="copy-button"
-                />
+                <button className="copyButton">
+                    <img
+                        className="copysvg"
+                        src={copybutton}
+                        alt="copy-button"
+                        onClick={() => {
+                            if (roomId) navigator.clipboard.writeText(roomId);
+                        }}
+                    />
+                </button>
             </div>
 
             <div className="playerlist">
                 <img className="versus" src={versus} alt="versus" />
                 <br />
-                <h4 className="players"> PLAYERS: </h4>
-                <p data-testid="player list">
+                <h4 className="players"> PLAYERS </h4>
+                <ul data-testid="player list" className="playerNameList">
                     {players?.map((player) => (
-                        <p className="playerNameWait" key={player.name}>
+                        <li className="playerNameWait" key={player.name}>
                             {player.name}
                             {player.isHost && ' (host)'}
-                        </p>
+                        </li>
                     ))}
-                </p>
-                {host?.id === player?.id ? (
+                </ul>
+                {host && host?.id === player?.id ? (
                     <Button
                         onClick={startGame}
                         className="ButtonStartGame"
@@ -58,7 +63,7 @@ export const WaitingOverview = () => {
                         Start game
                     </Button>
                 ) : (
-                    <span className="waitforhost">
+                    <span className="WaitingOverview-waitforplayers">
                         {' '}
                         Waiting for other players{' '}
                     </span>
