@@ -16,6 +16,7 @@ type roomOutput = {
     players?: Player[];
     playerOnTurn?: Player;
     host?: Player;
+    isGameOver?: Boolean;
 };
 
 const useRoom = (): roomOutput => {
@@ -23,6 +24,7 @@ const useRoom = (): roomOutput => {
     const params: roomParams = useParams();
     const roomId: string = params.id;
     const isActive = room?.isActive;
+    const isGameOver = room?.isGameOver;
     const players = room?.players;
     const playerOnTurn = room?.players.find((player) => player.isOnTurn);
     const host = room?.players.find((player) => player.isHost);
@@ -44,7 +46,15 @@ const useRoom = (): roomOutput => {
         };
     }, []);
 
-    return { room, roomId, players, isActive, playerOnTurn, host };
+    return {
+        room,
+        roomId,
+        players,
+        isActive,
+        isGameOver,
+        playerOnTurn,
+        host,
+    };
 };
 
 export default useRoom;
