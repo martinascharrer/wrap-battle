@@ -249,23 +249,45 @@ h2 {
 h1 {
   font-size: 35pt;
 }
-.PageScoreboard-heading {
-  font-size: 20pt;
+.PageScoreBoard-listItem {
+  font-size: 15pt;
+  padding: 10px 30px;
 }
 
-.PageScoreboard-winner {
-  margin-bottom: 70px;
+.PageScoreBoard-listItem--winner {
+  font-weight: bold;
+  background:  #F1D9AF;
+  border-radius: 10px;
 }
 
 .PageScoreboard-ButtonPlayAgain {
 
 }
 
-.PageScoreboard-nacho {
+.PageScoreboard-nachos {
+    display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60px;
+}
+
+.PageScoreboard-nachoImage {
   height: 40px;
 }
 
-/** Memory Game */
+.PageScoreBoard-listItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.memory-card-button{
+  background-image: url("./assets/images/card-pattern.jpg");
+  background-size: 250%;
+  width: 100px;
+  height: 100px;
+  font-size: 18pt;
+}
+
 .memory-game{
   float:left;
   margin-top: 30px;
@@ -273,6 +295,26 @@ h1 {
   width: 1040px;
   height: 800px;
 }
+.playerOnTurn{
+  float:right;
+  margin-bottom: 20px;
+  background-color: #DDC090;
+  width: 200px;
+  height: 40px;
+  font-weight: bold;
+
+}
+.playerNotOnTurn{
+  float:right;
+  margin-bottom: 20px;
+  background-color: #DDC090;
+  width: 200px;
+  height: 40px;
+}
+
+.memory-card-content{
+  font-size: 12pt;
+  }
 
 .memory-card-list {
   float: left;

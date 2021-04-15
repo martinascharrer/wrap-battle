@@ -14,10 +14,9 @@ export async function createRoom(name: string): Promise<string | null> {
             id: roomId,
             created: firebase.firestore.FieldValue.serverTimestamp(),
             players: [player],
-            maxPlayers: 5,
             memoryCards: [],
-            timePerTurn: 25,
             isActive: false,
+            isGameOver: false,
         };
         await firestore.collection('rooms').doc(roomId).set(room);
     } catch (e) {
@@ -54,7 +53,18 @@ export async function setGameActive(roomId: string) {
     }
 }
 
-export async function setMemoryCards(roomId: string, memoryCards: Card[] ) {
+export async function setGameOver(roomId: string, winner: Player) {
+    try {
+        await firestore
+            .collection('rooms')
+            .doc(roomId)
+            .update({ isGameOver: true, winner });
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+export async function setMemoryCards(roomId: string, memoryCards: Card[]) {
     try {
         const room = await firestore.collection('rooms').doc(roomId).get();
         if (room.exists) {
@@ -68,7 +78,7 @@ export async function setMemoryCards(roomId: string, memoryCards: Card[] ) {
     }
 }
 
-export async function setPlayers(roomId: string, players: Player[] ) {
+export async function setPlayers(roomId: string, players: Player[]) {
     try {
         const room = await firestore.collection('rooms').doc(roomId).get();
         if (room.exists) {
@@ -81,5 +91,3 @@ export async function setPlayers(roomId: string, players: Player[] ) {
         console.error(e);
     }
 }
-
-

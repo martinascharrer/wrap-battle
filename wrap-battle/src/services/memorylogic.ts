@@ -51,14 +51,10 @@ export function resetValues(memoryCards: Card[], indexes: number[]) {
     return memoryCards;
 }
 
-export function gameOver(memoryCards: Card[]) {
+export function isGameOver(memoryCards: Card[]) {
     let winCardsCount = 0;
     memoryCards.forEach((memoryCard) => {
         if (memoryCard.state === CardState.FINISHED) winCardsCount++;
     });
-    if (winCardsCount === 12) {
-        return true;
-    } else {
-        return false;
-    }
+    return winCardsCount === 12;
 }
