@@ -76,14 +76,14 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
         'burrito',
         'nachos',
         'tortilla',
-        'enchillada',
-        'chimichanga',
+        'enchi- llada',
+        'chimi- changa',
         'taco',
         'chilli con carne',
         'churros',
         'gambas',
         'gazpacho',
-        'guacamole',
+        'guaca- mole',
         'nacho cheese',
         'sangria',
         'paella',
@@ -188,8 +188,13 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                 players.map((player) => {
                     if (player.isOnTurn) {
                         return (
-                            <div className="playerOnTurn" key={player.id}>
-                                {player.name} {player.nachos}
+                            <div className="playerOnTurnBox" key={player.id}>
+                                <span className="playerOnTurnName">
+                                    {player.name}
+                                </span>
+                                <span className="playerOnTurnPoints">
+                                    {player.nachos}{' '}
+                                </span>
                                 <img
                                     className="nacho-points"
                                     src={nachoPoints}
@@ -200,8 +205,17 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                         );
                     } else {
                         return (
-                            <div className="playerNotOnTurn" key={player.id}>
-                                {player.name} {player.nachos}{' '}
+                            <div className="playerNotOnTurnBox">
+                                <span
+                                    className="playerNotOnTurnName"
+                                    key={player.id}
+                                >
+                                    {player.name}
+                                </span>
+                                <span className="playerNotOnTurnPoints">
+                                    {' '}
+                                    {player.nachos}{' '}
+                                </span>
                                 <img
                                     className="nacho-points"
                                     src={nachoPoints}
@@ -215,3 +229,5 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
         </div>
     );
 };
+
+export default MemoryGame;
