@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardState } from '../../types/card';
 import { Player } from '../../types/player';
 import { MemoryCardList } from './MemoryCardList';
@@ -30,7 +30,7 @@ import imageJalapenos from '../../assets/svg/jalapenos.svg';
 import imageSalsa from '../../assets/svg/salsa.svg';
 import imageFajitas from '../../assets/svg/facitas.svg';
 import useRoom from '../../hooks/useRoom';
-import { setMemoryCards, setPlayers } from '../../services/room';
+import { setMemoryCards, setPlayers, setRestartTimer, setTimer } from '../../services/room';
 import { getPlayerFromStorage } from '../../services/player';
 import { useTimer } from 'use-timer';
 import { type } from 'node:os';
@@ -80,63 +80,66 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
     const images = [imageBurrito, imageNachos, imageTortilla, imageEnchilada, imageChimichanga, imageTaco, imageChilliconcarne, 
         imageChurros, imageGambas, imageGazpacho, imageGuacamole, imageNachoCheese, imageSangria, imagePaella, imagePatatasBravas,
         imageJalapenos, imageSalsa ,imageFajitas];
-    const {room, players, playerOnTurn, host} = useRoom();
+    const {room, players, playerOnTurn, host, restartTimer} = useRoom();
 
     const resetTimer = async (updatePlayer:boolean) => {
-        if(getPlayerFromStorage()?.id === host?.id) reset();
-        if(room && players ){
+        let pfuschValue = 5;
+        if(restartTimer) pfuschValue = restartTimer+1;
+        if(room) await setRestartTimer(room.id, pfuschValue);
+        if(room && players){
             let newPlayers = players;
-            if(updatePlayer) updatePlayerOnTurn(players);
-            players.forEach(player => {
-                player.timeLeft=20;
+            if(updatePlayer) newPlayers = updatePlayerOnTurn(newPlayers);
+            newPlayers.forEach(player => {
+                player.timeLeft = time;
             });
-            if(getPlayerFromStorage()?.id === host?.id) start();
             await setPlayers(room.id, newPlayers);
         }
     };
 
-    const setTime = (players: Player[])=> {
-        if(getPlayerFromStorage()?.id === host?.id){
-            players.forEach(player => {
-                player.timeLeft=time;
-            });
-        }
-    };
     
-    const {time, start, reset} = useTimer({
+    const {time, start, reset, status} = useTimer({
         initialTime: 20,
         endTime: 0,
         timerType: 'DECREMENTAL',
-        interval: 5000,
-        step: 5,
+        interval: 1000,
+        step: 1,
         onTimeUpdate: async (time) => {
-            if(room && players&& getPlayerFromStorage()?.id === host?.id){
+            if(room&&players&& host?.id === getPlayerFromStorage()?.id && time!== 20) {
                 players.forEach(player => {
-                    player.timeLeft=time;
+                    player.timeLeft= time;
                 });
-                await setPlayers(room.id, players);
-            }
-        },
-        onTimeOver: async () => {
-            if(getPlayerFromStorage()?.id === host?.id){
-                await resetTimer(true);
+                await setPlayers(room?.id, players);
             }
         },
     });
 
+    useEffect(() => {
+        if(host?.id === getPlayerFromStorage()?.id && room) {
+            setTimer(room.id, time);
+        }
+    }, [players]);
 
     useEffect(() => {
-        if(getPlayerFromStorage()?.id === host?.id) start();
+        console.log(restartTimer);
+        reset();
+        start();
+        if(room) setTimer(room.id, time);
+    }, [restartTimer]);
+
+
+    useEffect(() => {
+        if(room?.timerValue===0) resetTimer(true);
+    }, [room?.timerValue]);
+
+
+    useEffect(() => {
         const setUpMemoryBoard =  async () => {
             if (room) await setMemoryCards(room.id, createRandomMemoryLayout(food, images));
         };
         setUpMemoryBoard();
+        start();
     }, [room?.isActive]);
-
-
-    players?.forEach(player => {
-        if(player.isOnTurn) console.log(player.timeLeft);
-    });
+    
 
     const onClick = async (index: number) => {
         if (
@@ -150,12 +153,7 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                     await setMemoryCards(
                         room.id,
                         updateMemoryCard(room.memoryCards, index)
-                        
                     );
-                    /*
-                    setTime(players);
-                    await setPlayers(room.id, players );
-                    */
                     uncoveredIndexes.push(index);
                 }
                 if(uncoveredIndexes.length === 2){
@@ -163,10 +161,6 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                         room.id, 
                         updateGameState(room.memoryCards, uncoveredIndexes)
                     );
-                    /*
-                    setTime(players);
-                    await setPlayers(room.id, players);
-                    */
     
                     if(room.memoryCards[uncoveredIndexes[0]].state === CardState.FINISHED){
                         players.forEach(player => {

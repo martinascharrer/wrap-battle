@@ -10,4 +10,6 @@ export type Room = {
     timePerTurn: number;
     memoryCards: Card[];
     isActive: boolean;
+    timerValue: number;
+    restartTimer: number;
 };

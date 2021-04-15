@@ -2,6 +2,7 @@ import React from 'react';
 
 import logo from '../../assets/images/logo_outlined.png';
 import stopwatch from '../../assets/svg/stopwatch.svg';
+import useRoom from '../../hooks/useRoom';
 import { Player } from '../../types/player';
 
 type headerProps = {
@@ -9,6 +10,7 @@ type headerProps = {
 };
 
 export const Header = ({ playerOnTurn }: headerProps) => {
+    const {room} = useRoom();
     return (
         <div className="header">
             <img
@@ -25,7 +27,7 @@ export const Header = ({ playerOnTurn }: headerProps) => {
                 data-testid="header stopwatch"
             />
             <p className="header-timecount">
-                {playerOnTurn && playerOnTurn.timeLeft}
+                {playerOnTurn && room?.timerValue}
             </p>
             <p className="header-text">
                 {playerOnTurn && playerOnTurn.name} is picking cards{' '}

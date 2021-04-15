@@ -18,6 +18,8 @@ export async function createRoom(name: string): Promise<string | null> {
             memoryCards: [],
             timePerTurn: 25,
             isActive: false,
+            timerValue: 0,
+            restartTimer: 0,
         };
         await firestore.collection('rooms').doc(roomId).set(room);
     } catch (e) {
@@ -81,5 +83,35 @@ export async function setPlayers(roomId: string, players: Player[] ) {
         console.error(e);
     }
 }
+
+export async function setTimer(roomId: string, time: number) {
+    try {
+        const room = await firestore.collection('rooms').doc(roomId).get();
+        if (room.exists) {
+            await firestore
+                .collection('rooms')
+                .doc(roomId)
+                .update({ timerValue: time });
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+
+export async function setRestartTimer(roomId: string, value: number) {
+    try {
+        const room = await firestore.collection('rooms').doc(roomId).get();
+        if (room.exists) {
+            await firestore
+                .collection('rooms')
+                .doc(roomId)
+                .update({ restartTimer: value });
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 
 
