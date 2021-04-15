@@ -6,10 +6,9 @@ export type Room = {
     id: string;
     created: firebase.firestore.FieldValue;
     players: Player[];
-    maxPlayers: number;
-    timePerTurn: number;
     memoryCards: Card[];
     isActive: boolean;
     timerValue: number;
     restartTimer: number;
+    isGameOver: Boolean;
 };

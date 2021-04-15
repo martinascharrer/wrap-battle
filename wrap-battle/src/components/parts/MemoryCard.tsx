@@ -1,4 +1,4 @@
-import { Card } from '../../types/card';
+import { Card, CardState } from '../../types/card';
 
 type memoryCardProps = {
     memoryCard: Card;
@@ -6,7 +6,7 @@ type memoryCardProps = {
 };
 
 function CardContent(props: { memoryCard: Card }) {
-    if (props.memoryCard.state !== 0) {
+    if (props.memoryCard.state !== CardState.CLOSED) {
         if (props.memoryCard.image !== 'no') {
             return (
                 <div>
@@ -19,7 +19,11 @@ function CardContent(props: { memoryCard: Card }) {
                 </div>
             );
         } else {
-            return <h1 className="memory-card-content" data-testid="card text">{props.memoryCard.content}</h1>;
+            return (
+                <h1 className="memory-card-content" data-testid="card text">
+                    {props.memoryCard.content}
+                </h1>
+            );
         }
     } else {
         return <div />;
@@ -30,7 +34,7 @@ export const MemoryCard = ({ memoryCard, onClick }: memoryCardProps) => {
     return (
         <div
             className={
-                memoryCard.state === 2
+                memoryCard.state === CardState.FINISHED
                     ? 'memory-card card-finished'
                     : 'memory-card'
             }

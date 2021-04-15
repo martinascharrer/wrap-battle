@@ -8,7 +8,7 @@ import {
     updatePlayerOnTurn,
     updateMemoryCard,
     getUncoveredIndexes,
-    gameOver,
+    isGameOver,
 } from '../../services/memorylogic';
 import imageTaco from '../../assets/svg/taco.svg';
 import imageBurrito from '../../assets/svg/burrito.svg';
@@ -30,7 +30,7 @@ import imageJalapenos from '../../assets/svg/jalapenos.svg';
 import imageSalsa from '../../assets/svg/salsa.svg';
 import imageFajitas from '../../assets/svg/facitas.svg';
 import useRoom from '../../hooks/useRoom';
-import { setMemoryCards, setPlayers, setRestartTimer, setTimer } from '../../services/room';
+import { setGameOver, setMemoryCards, setPlayers, setRestartTimer, setTimer } from '../../services/room';
 import { getPlayerFromStorage } from '../../services/player';
 import { useTimer } from 'use-timer';
 import { type } from 'node:os';
@@ -74,14 +74,47 @@ function getWinner(players: Player[]) {
 }
 
 export const MemoryGame = (playerCount: memoryGameProps) => {
-
-    const food = ['burrito', 'nachos', 'tortilla', 'enchillada', 'chimichanga', 'taco', 'chilli con carne', 'churros', 'gambas',
-        'gazpacho', 'guacamole', 'nacho cheese', 'sangria', 'paella', 'patatas bravas', 'jalapenos', 'salsa', 'fajitas'];
-    const images = [imageBurrito, imageNachos, imageTortilla, imageEnchilada, imageChimichanga, imageTaco, imageChilliconcarne, 
-        imageChurros, imageGambas, imageGazpacho, imageGuacamole, imageNachoCheese, imageSangria, imagePaella, imagePatatasBravas,
-        imageJalapenos, imageSalsa ,imageFajitas];
+    const food = [
+        'burrito',
+        'nachos',
+        'tortilla',
+        'enchi- llada',
+        'chimi- changa',
+        'taco',
+        'chilli con carne',
+        'churros',
+        'gambas',
+        'gazpacho',
+        'guaca- mole',
+        'nacho cheese',
+        'sangria',
+        'paella',
+        'patatas bravas',
+        'jalapenos',
+        'salsa',
+        'fajitas',
+    ];
+    const images = [
+        imageBurrito,
+        imageNachos,
+        imageTortilla,
+        imageEnchilada,
+        imageChimichanga,
+        imageTaco,
+        imageChilliconcarne,
+        imageChurros,
+        imageGambas,
+        imageGazpacho,
+        imageGuacamole,
+        imageNachoCheese,
+        imageSangria,
+        imagePaella,
+        imagePatatasBravas,
+        imageJalapenos,
+        imageSalsa,
+        imageFajitas,
+    ];
     const {room, players, playerOnTurn, host, restartTimer} = useRoom();
-
     const resetTimer = async (updatePlayer:boolean) => {
         let pfuschValue = 5;
         if(restartTimer) pfuschValue = restartTimer+1;
@@ -120,7 +153,6 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
     }, [players]);
 
     useEffect(() => {
-        console.log(restartTimer);
         reset();
         start();
         if(room) setTimer(room.id, time);
@@ -156,9 +188,9 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                     );
                     uncoveredIndexes.push(index);
                 }
-                if(uncoveredIndexes.length === 2){
+                if (uncoveredIndexes.length === 2) {
                     await setMemoryCards(
-                        room.id, 
+                        room.id,
                         updateGameState(room.memoryCards, uncoveredIndexes)
                     );
     
@@ -170,15 +202,9 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                         });
                         await resetTimer(false);
 
-                        if (gameOver(room.memoryCards)) {
-                            let winner = getWinner(players);
-                            alert(
-                                'game over, the winner is ' +
-                                    winner.name +
-                                    ' with: ' +
-                                    winner.nachos +
-                                    ' nachos'
-                            );
+                        if (isGameOver(room.memoryCards)) {
+                            const winner = getWinner(players);
+                            await setGameOver(room.id, winner);
                         }
                     } else {
                         await resetTimer(true);
@@ -206,8 +232,13 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                 players.map((player) => {
                     if (player.isOnTurn) {
                         return (
-                            <div className="playerOnTurn">
-                                {player.name} {player.nachos}
+                            <div className="playerOnTurnBox" key={player.id}>
+                                <span className="playerOnTurnName">
+                                    {player.name}
+                                </span>
+                                <span className="playerOnTurnPoints">
+                                    {player.nachos}{' '}
+                                </span>
                                 <img
                                     className="nacho-points"
                                     src={nachoPoints}
@@ -218,8 +249,17 @@ export const MemoryGame = (playerCount: memoryGameProps) => {
                         );
                     } else {
                         return (
-                            <div className="playerNotOnTurn">
-                                {player.name} {player.nachos}{' '}
+                            <div className="playerNotOnTurnBox">
+                                <span
+                                    className="playerNotOnTurnName"
+                                    key={player.id}
+                                >
+                                    {player.name}
+                                </span>
+                                <span className="playerNotOnTurnPoints">
+                                    {' '}
+                                    {player.nachos}{' '}
+                                </span>
                                 <img
                                     className="nacho-points"
                                     src={nachoPoints}

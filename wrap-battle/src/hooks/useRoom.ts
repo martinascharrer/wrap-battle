@@ -18,6 +18,7 @@ type roomOutput = {
     host?: Player;
     timerValue ? : number;
     restartTimer? : number;
+    isGameOver?: Boolean;
 };
 
 const useRoom = (): roomOutput => {
@@ -25,6 +26,7 @@ const useRoom = (): roomOutput => {
     const params: roomParams = useParams();
     const roomId: string = params.id;
     const isActive = room?.isActive;
+    const isGameOver = room?.isGameOver;
     const players = room?.players;
     const timerValue = room?.timerValue;
     const playerOnTurn = room?.players.find((player) => player.isOnTurn);

@@ -46,7 +46,10 @@
 
 body {
   background-image: url("./assets/images/bg-pattern.png");
+  }
 
+.pageWaitingRoom{
+  min-height: calc(100vh - 50px);
 }
 
 .textfield {
@@ -68,7 +71,7 @@ body {
 .WaitingOverview-logo{
   height: 200px;
   float:left;
-  margin-top: -60px;
+  margin-top: -10px;
   margin-left: 55px;
 }
 
@@ -76,7 +79,7 @@ body {
   margin: auto;
   margin-top: 20px;
   width: 240px;
-  height: 500px;
+  height: 400px;
   background-color: rgb(255,245,220);
   border-radius: 10px;
   padding: 30px;
@@ -87,7 +90,7 @@ body {
   font-size: 30pt;
   font-weight: bold;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 50px;
   width: 300px;
   height: 70px;
   background-color: rgb(255,245,220);
@@ -107,7 +110,6 @@ body {
 
 .copysvg {
   width: 30px;
-  margin-left: -10px;
   padding-top: 5px;
   margin: auto;
 }
@@ -178,10 +180,11 @@ body {
   width: 100%;
   height: 30px;
   background-color: #DDC090;
-  position: absolute;
+  position: sticky;
+  top:100%;
+  /*position: absolute;
   bottom: 0;
-  font-weight: normal;
-  border-top: 3px solid #fff5dc;
+  border-top: 3px solid #fff5dc; */
 
 }
 
@@ -190,6 +193,7 @@ body {
   margin: auto;
   padding-left: 30px;
   padding-top: 2px;
+
 }
 
 .footer-room-id {
@@ -199,44 +203,40 @@ body {
   padding-top: 2px;
 }
 
-.host{
-  font-size: 16pt;
-  font-weight: bold;
+.versus{
+  height: 80px;
+  margin-bottom: 10px;
 }
 
-.players{
+.players-headline{
   font-size: 16pt;
   font-weight: bold;
-}
-
-.hostNameWait{
-  font-size: 16pt;
-  font-weight: bold;
+  margin: 10px;
 }
 
 .playerNameWait{
-  font-size: 16pt;
-  padding-right: 40px;
-
+  font-size: 14pt;
+  height: 30px;
+  background-color: #f3d6a1;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
+
 
 .playerNameList{
-  margin-bottom: 50px;
+  margin-bottom: 40px;
+  width: 250px;
+  list-style-type: none;
+  padding: 0;
 }
 
+.ButtonStartGame{
+
+}
 
 .WaitingOverview-waitforplayers{
-  margin-bottom: 120px;
-}
-
-.versus{
-  height: 100px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-.card-finished {
-  border: 3px solid red;
+  top: 35%;
+  position: absolute;
 }
 
 .PageScoreboard-trophy {
@@ -249,20 +249,35 @@ h2 {
 h1 {
   font-size: 35pt;
 }
-.PageScoreboard-heading {
-  font-size: 20pt;
+.PageScoreBoard-listItem {
+  font-size: 15pt;
+  padding: 10px 30px;
 }
 
-.PageScoreboard-winner {
-  margin-bottom: 70px;
+.PageScoreBoard-listItem--winner {
+  font-weight: bold;
+  background:  #F1D9AF;
+  border-radius: 10px;
 }
 
 .PageScoreboard-ButtonPlayAgain {
 
 }
 
-.PageScoreboard-nacho {
+.PageScoreboard-nachos {
+    display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60px;
+}
+
+.PageScoreboard-nachoImage {
   height: 40px;
+}
+
+.PageScoreBoard-listItem {
+  display: flex;
+  justify-content: space-between;
 }
 
 .memory-card-button{
@@ -276,8 +291,8 @@ h1 {
 .memory-game{
   float:left;
   margin-top: 30px;
-  margin-left: 30px;
-  width: 1000px;
+  margin-left: 100px;
+  width: 1040px;
   height: 800px;
 }
 .playerOnTurn{
@@ -302,11 +317,27 @@ h1 {
   }
 
 .memory-card-list {
+  float: left;
   margin: auto;
   width: 70%;
   height: 85%;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
+}
+
+.memory-card-button{
+  background-image: url("./assets/images/card-pattern.jpg");
+  background-size: 250%;
+  width: 100px;
+  height: 100px;
+  font-size: 18pt;
+  border-radius: 5px;
+}
+
+.memory-card{
+  width:  99px;
+  height: 99px;
+  border-radius: 5px;
 }
 
 .memory-card-image{
@@ -316,17 +347,85 @@ h1 {
   border: 2px solid black;
   margin-left: -8px;
   margin-top: -3px;
+  border-radius: 8px;
 }
 
-.MemoryGame-player-score {
+.memory-card-content{
+  font-size: 14pt;
+  background-color: #fff2dc;
+  border-radius: 8px;
+  border: 2px solid black;
+  width:  96px;
+  height: 71px;
+  padding-top: 25px;
+  margin-left: -8px;
+  margin-top: -3px;
 
 }
 
-.MemoryGame-player-on-turn-score {
+.card-finished {
+  border: 3px solid #1d8d00;
+  border-radius: 8px;
+}
+
+
+/** PointOverview */
+.playerOnTurnBox{
+  float:right;
+  margin-bottom: 20px;
+  background-color: #F1D9AF;
+  width: 300px;
+  height: 40px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: 2px solid black;
+}
+
+.playerOnTurnName{
+  float: left;
+  padding-top: 5px;
+  padding-left: 15px;
+  font-size: 14pt;
+  }
+
+.playerOnTurnPoints{
+  float: right;
+  font-size: 18pt;
+  margin-top: 2px;
+  margin-right: 25px;
 
 }
+
+.playerNotOnTurnBox{
+  float:right;
+  margin-bottom: 20px;
+  background-color: #F1D9AF;
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid #fff5dc;
+}
+
+.playerNotOnTurnName{
+  float: left;
+  padding-top: 5px;
+  padding-left: 15px;
+  font-size: 14pt;
+
+}
+
+.playerNotOnTurnPoints{
+  float: right;
+  font-size: 18pt;
+  margin-top: 2px;
+  margin-right: 25px;
+}
+
 
 .nacho-points {
-  height: 20px;
+  float:right;
+  height: 27px;
   padding-top: 5px;
+  padding-right: 10px;
+
 }
