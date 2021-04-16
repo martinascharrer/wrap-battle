@@ -8,5 +8,8 @@ export type Room = {
     players: Player[];
     memoryCards: Card[];
     isActive: boolean;
+    timerValue: number;
+    restartTimer: boolean;
+    updateTimer: boolean;
     isGameOver: Boolean;
 };

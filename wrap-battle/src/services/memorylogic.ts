@@ -56,5 +56,5 @@ export function isGameOver(memoryCards: Card[]) {
     memoryCards.forEach((memoryCard) => {
         if (memoryCard.state === CardState.FINISHED) winCardsCount++;
     });
-    return winCardsCount === 12;
+    return winCardsCount === 36;
 }

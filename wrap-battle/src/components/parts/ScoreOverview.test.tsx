@@ -8,7 +8,6 @@ const players = [
         isHost: false,
         isOnTurn: false,
         nachos: 0,
-        timeLeft: 20,
     },
     {
         id: 'foo',
@@ -16,7 +15,6 @@ const players = [
         isHost: false,
         isOnTurn: false,
         nachos: 5,
-        timeLeft: 20,
     },
 ];
 

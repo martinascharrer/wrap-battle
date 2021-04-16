@@ -13,7 +13,6 @@ jest.mock('../../hooks/useRoom', () => ({
                 isHost: false,
                 isOnTurn: false,
                 nachos: 0,
-                timeLeft: 20,
             },
         ],
         isActive: false,

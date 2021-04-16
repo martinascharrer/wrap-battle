@@ -16,6 +16,9 @@ type roomOutput = {
     players?: Player[];
     playerOnTurn?: Player;
     host?: Player;
+    timerValue?: number;
+    restartTimer?: boolean;
+    updateTimer?: boolean;
     isGameOver?: Boolean;
 };
 
@@ -26,8 +29,11 @@ const useRoom = (): roomOutput => {
     const isActive = room?.isActive;
     const isGameOver = room?.isGameOver;
     const players = room?.players;
+    const timerValue = room?.timerValue;
     const playerOnTurn = room?.players.find((player) => player.isOnTurn);
     const host = room?.players.find((player) => player.isHost);
+    const restartTimer = room?.restartTimer;
+    const updateTimer = room?.updateTimer;
 
     useEffect(() => {
         const unsubscribe = db
@@ -54,6 +60,9 @@ const useRoom = (): roomOutput => {
         isGameOver,
         playerOnTurn,
         host,
+        timerValue,
+        restartTimer,
+        updateTimer,
     };
 };
 

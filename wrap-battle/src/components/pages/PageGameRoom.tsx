@@ -15,7 +15,7 @@ export const PageGameRoom = () => {
     return (
         <div className="pageGameRoom">
             <Header playerOnTurn={playerOnTurn} />
-            <MemoryGame playerCount={3} />
+            <MemoryGame />
         </div>
     );
 };
