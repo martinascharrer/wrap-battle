@@ -4,5 +4,4 @@ export type Player = {
     nachos: number;
     isOnTurn: boolean;
     isHost: boolean;
-    timeLeft: number;
 };

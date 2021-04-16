@@ -6,7 +6,6 @@ const mockPlayer: Player = {
     id: 'asd',
     name: 'Hans',
     isOnTurn: false,
-    timeLeft: 3,
     nachos: 0,
     isHost: false,
 };

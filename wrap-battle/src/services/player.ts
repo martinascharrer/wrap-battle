@@ -14,7 +14,6 @@ export function createPlayer(name: string, isHost: boolean = false) {
         isHost,
         isOnTurn: isHost,
         nachos: 0,
-        timeLeft: 20,
     };
     sessionStorage.setItem(SESSION_KEY_USER, JSON.stringify(newPlayer));
     return newPlayer;

@@ -9,6 +9,7 @@ export type Room = {
     memoryCards: Card[];
     isActive: boolean;
     timerValue: number;
-    restartTimer: number;
+    restartTimer: boolean;
+    updateTimer: boolean;
     isGameOver: Boolean;
 };

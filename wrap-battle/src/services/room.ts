@@ -17,7 +17,8 @@ export async function createRoom(name: string): Promise<string | null> {
             memoryCards: [],
             isActive: false,
             timerValue: 0,
-            restartTimer: 0,
+            updateTimer: false,
+            restartTimer: false,
             isGameOver: false,
         };
         await firestore.collection('rooms').doc(roomId).set(room);
@@ -109,7 +110,7 @@ export async function setTimer(roomId: string, time: number) {
 }
 
 
-export async function setRestartTimer(roomId: string, value: number) {
+export async function setRestartTimer(roomId: string, value: boolean) {
     try {
         const room = await firestore.collection('rooms').doc(roomId).get();
         if (room.exists) {
@@ -117,6 +118,20 @@ export async function setRestartTimer(roomId: string, value: number) {
                 .collection('rooms')
                 .doc(roomId)
                 .update({ restartTimer: value });
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+export async function setUpdateTimer(roomId: string, value: boolean) {
+    try {
+        const room = await firestore.collection('rooms').doc(roomId).get();
+        if (room.exists) {
+            await firestore
+                .collection('rooms')
+                .doc(roomId)
+                .update({ updateTimer: value });
         }
     } catch (e) {
         console.error(e);
