@@ -16,9 +16,9 @@ type roomOutput = {
     players?: Player[];
     playerOnTurn?: Player;
     host?: Player;
-    timerValue ? : number;
-    restartTimer? : boolean;
-    updateTimer? : boolean;
+    timerValue?: number;
+    restartTimer?: boolean;
+    updateTimer?: boolean;
     isGameOver?: Boolean;
 };
 
@@ -52,7 +52,18 @@ const useRoom = (): roomOutput => {
         };
     }, []);
 
-    return { room, roomId, players, isActive, playerOnTurn, host, timerValue , restartTimer, updateTimer };
+    return {
+        room,
+        roomId,
+        players,
+        isActive,
+        isGameOver,
+        playerOnTurn,
+        host,
+        timerValue,
+        restartTimer,
+        updateTimer,
+    };
 };
 
 export default useRoom;
